@@ -39,11 +39,11 @@ namespace WebPortfoy.Controllers
 
         private string GenerateToken(User user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier,user.Username),
+                new Claim(ClaimTypes.NameIdentifier,user.Username!),
                 new Claim(ClaimTypes.Role,"Admin")
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
