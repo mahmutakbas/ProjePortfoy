@@ -10,5 +10,13 @@
         public int RiskSkoru { get; set; }
         public int RiskOnceligi { get; set; }
         public bool RiskDurumu { get; set; }
+
+        /*
+         id int
+        proje id int
+        name string
+        status string
+         
+         */
     }
 }

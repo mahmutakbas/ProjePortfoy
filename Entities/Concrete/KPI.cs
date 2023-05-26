@@ -5,6 +5,6 @@
 
         public string? KPIAdi { get; set; }
         public string? Aciklama { get; set; }
-        public int Puan { get; set; }
+        public int Puan { get; set; } 
     }
 }

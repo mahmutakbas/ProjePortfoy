@@ -4,11 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.DTOs
+namespace Entities.DTOs.UserDto
 {
-    public class JWTTokenResponse
+    public class Login
     {
-        public string? Token
+        public string? UserName
+        {
+            get;
+            set;
+        }
+        public string? Password
         {
             get;
             set;

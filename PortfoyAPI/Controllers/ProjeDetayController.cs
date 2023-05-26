@@ -69,6 +69,5 @@ namespace PortfoyProje.Controllers
                 return BadRequest(new { isSuccess = false, Message = "Kayıt Silme Başarısız" });
             return Ok(new { isSuccess = true, Message = "Kayıt Başarıyla Silindi" });
         }
-
     }
 }

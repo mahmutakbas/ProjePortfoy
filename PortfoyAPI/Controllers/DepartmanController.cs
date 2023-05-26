@@ -1,5 +1,7 @@
-﻿using Business.Concrete;
+﻿using AutoMapper;
+using Business.Concrete;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,12 @@ namespace PortfoyProje.Controllers
     public class DepartmanController : ControllerBase
     {
         private readonly IDepartmanService _departmanService;
+        private readonly IMapper _mapper;
 
-        public DepartmanController(IDepartmanService departmanService)
+        public DepartmanController(IDepartmanService departmanService, IMapper mapper)
         {
             _departmanService = departmanService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,7 +26,9 @@ namespace PortfoyProje.Controllers
         {
             var result = await _departmanService.GetAll();
 
-            return Ok(result);
+            var resultDto = _mapper.Map<List<Departman>, List<DepartmanDTO>>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpGet("getbyid/{id}")]
@@ -36,13 +42,17 @@ namespace PortfoyProje.Controllers
             if (result.Data == null)
                 return NotFound(result);
 
-            return Ok(result);
+            var resultDto = _mapper.Map<Departman, DepartmanDTO>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Departman departman)
+        public async Task<IActionResult> Create(DepartmanDTO departman)
         {
-            var result = await _departmanService.AddAsync(departman);
+            var resultDto = _mapper.Map<DepartmanDTO,Departman>(departman);
+
+            var result = await _departmanService.AddAsync(resultDto);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = result.Message });
@@ -50,9 +60,11 @@ namespace PortfoyProje.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(Departman departman)
+        public async Task<IActionResult> Update(DepartmanDTO departman)
         {
-            var result = await _departmanService.Update(departman);
+            var resultDto = _mapper.Map<DepartmanDTO, Departman>(departman);
+
+            var result = await _departmanService.Update(resultDto);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = result.Message });

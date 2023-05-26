@@ -3,7 +3,7 @@ using Business.Utilities.Result;
 using Business.Utilities.ValidationRules;
 using Business.Utilities.ValidationRules.FluentValidation;
 using DataAccess.Dapper;
-using Entities.DTOs;
+using Entities.DTOs.UserDto;
 
 namespace Business.Concrete
 {

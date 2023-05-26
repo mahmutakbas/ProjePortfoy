@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Entities.DTOs;
+using Entities.DTOs.UserDto;
 using MySql.Data.MySqlClient;
 
 namespace DataAccess.Dapper

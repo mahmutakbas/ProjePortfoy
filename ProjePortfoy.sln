@@ -9,14 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entiti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{B68B7538-7B6C-482D-9329-BBC6EC521BC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{DEF625AA-E2ED-4AA8-A8C0-2803E558010C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{DF209543-3940-4A9B-862A-51B3C1A10289}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\Desktop\Portfoy.postman_collection.json = ..\..\..\Desktop\Portfoy.postman_collection.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfoyAPI", "PortfoyAPI\PortfoyAPI.csproj", "{2181D1EA-859D-4BBC-96F0-03947D013DBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfoyAPI", "PortfoyAPI\PortfoyAPI.csproj", "{2181D1EA-859D-4BBC-96F0-03947D013DBA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLDataAccess", "MLDataAccess\MLDataAccess.csproj", "{4CF7B837-F062-49F5-9ECA-6FF4BEC45DD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,14 +36,14 @@ Global
 		{B68B7538-7B6C-482D-9329-BBC6EC521BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B68B7538-7B6C-482D-9329-BBC6EC521BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B68B7538-7B6C-482D-9329-BBC6EC521BC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEF625AA-E2ED-4AA8-A8C0-2803E558010C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEF625AA-E2ED-4AA8-A8C0-2803E558010C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEF625AA-E2ED-4AA8-A8C0-2803E558010C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEF625AA-E2ED-4AA8-A8C0-2803E558010C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2181D1EA-859D-4BBC-96F0-03947D013DBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2181D1EA-859D-4BBC-96F0-03947D013DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2181D1EA-859D-4BBC-96F0-03947D013DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2181D1EA-859D-4BBC-96F0-03947D013DBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF7B837-F062-49F5-9ECA-6FF4BEC45DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF7B837-F062-49F5-9ECA-6FF4BEC45DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF7B837-F062-49F5-9ECA-6FF4BEC45DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF7B837-F062-49F5-9ECA-6FF4BEC45DD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

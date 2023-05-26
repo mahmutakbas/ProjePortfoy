@@ -2,7 +2,9 @@ using Business.Concrete;
 using DataAccess.Dapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MLDataAccess;
 using System.Text;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,10 @@ builder.Services.AddTransient<IProjeKategoriService, ProjeKategoriManager>();
 builder.Services.AddTransient<IProjeKPIService, ProjeKPIManager>();
 builder.Services.AddTransient<IRiskService, RiskManager>();
 builder.Services.AddTransient<IUserService, UserManager>();
+
+builder.Services.AddTransient<ISelectPortfoy, SelectPortfoy>();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

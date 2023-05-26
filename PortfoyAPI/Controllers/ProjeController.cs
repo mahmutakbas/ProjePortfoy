@@ -1,5 +1,7 @@
-﻿using Business.Concrete;
+﻿using AutoMapper;
+using Business.Concrete;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +14,13 @@ namespace WebPortfoy.Controllers
     public class ProjeController : ControllerBase
     {
         private readonly IProjeService _projeService;
+        private readonly IMapper _mapper;
 
-        public ProjeController(IProjeService projeService)
+
+        public ProjeController(IProjeService projeService,IMapper mapper)
         {
             _projeService = projeService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,7 +28,9 @@ namespace WebPortfoy.Controllers
         {
             var result = await _projeService.GetAll();
 
-            return Ok(result);
+            var resultDto = _mapper.Map<List<Proje>, List<ProjectDto>>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpGet("getbyid/{id}")]
@@ -37,13 +44,17 @@ namespace WebPortfoy.Controllers
             if (result.Data == null)
                 return NotFound(result);
 
-            return Ok(result);
+            var resultDto = _mapper.Map<Proje, ProjectDto>(result.Data);    
+
+            return Ok(resultDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Proje proje)
+        public async Task<IActionResult> Create(ProjectDto proje)
         {
-            var result = await _projeService.AddAsync(proje);
+
+            var resultDto = _mapper.Map<ProjectDto, Proje>(proje);
+            var result = await _projeService.AddAsync(resultDto);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
@@ -51,9 +62,11 @@ namespace WebPortfoy.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(Proje proje)
+        public async Task<IActionResult> Update(ProjectDto proje)
         {
-            var result = await _projeService.Update(proje);
+            var resultDto = _mapper.Map<ProjectDto, Proje>(proje);
+
+            var result = await _projeService.Update(resultDto);
 
             if(!result.Success)
                 return BadRequest(new { isSuccess = false, Message = result.Message });

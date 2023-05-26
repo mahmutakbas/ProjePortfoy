@@ -1,5 +1,5 @@
 ﻿using Entities.Concrete;
-using Entities.DTOs;
+using Entities.DTOs.UserDto;
 using FluentValidation;
 using System;
 using System.Collections.Generic;

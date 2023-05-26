@@ -1,0 +1,101 @@
+﻿Id;ProjeIsmi;ProjeTipi;Butce;TahminiKar;IsGucu;KaynakKullanim;Sonuc;Sure;Risk1;Risk2;Risk3;Risk4;Risk5
+1;İstanbul Konut;Konut;5;4;4;5;22;4;3;1;1;1;1
+2;Bursa Sanayi;Sanayi;3;3;2;4;13;1;2;1;1;1;1
+3;Ankara Altyapı;Altyapı;5;5;3;4;19;2;1;1;1;1;1
+4;İzmir Restorasyon;Restorasyon;2;2;4;5;17;4;2;1;1;1;1
+5;Antalya Turizm;Turizm;3;3;2;3;12;1;3;1;3;2;1
+6;Sky Towers;Konut;4;4;1;2;12;1;4;3;2;2;3
+7;Green Industrial;Sanayi;5;4;2;3;16;2;1;1;1;1;2
+8;Golden Restora;Altyapı;3;2;2;4;15;4;4;3;2;4;2
+9;Highways;Restorasyon;3;3;4;4;17;3;4;4;3;2;2
+10;Seafront Resort;Turizm;5;5;1;4;18;3;1;1;2;2;3
+11;Atlas Residences;Konut;5;5;2;4;20;4;2;2;2;2;3
+12;Galata Lofts;Sanayi;4;4;1;2;12;1;4;3;4;4;4
+13;Çanak Köprüsü;Altyapı;5;4;1;1;12;1;4;4;3;4;3
+14;Teknopark;Restorasyon;3;3;4;4;17;3;1;2;2;1;2
+15;Resort;Turizm;5;5;3;4;19;2;1;5;1;1;1
+16;İstanbul Towers;Konut;5;5;2;1;14;1;1;2;2;1;2
+17;Otomotiv Fabrikası;Sanayi;3;3;2;2;11;1;4;4;3;4;1
+18;Anıt Restorasyonu;Altyapı;4;4;4;4;21;5;1;1;1;1;1
+19;Körfez Geçişi;Restorasyon;5;5;1;2;15;2;1;2;1;2;2
+20;Kapadokya Turizm;Turizm;4;2;2;4;15;3;3;1;1;1;1
+21;İstanbul Liman Projesi;Ulaşım;5;5;2;3;17;2;2;1;1;1;1
+22;Ankara İtfaiye İstasyonu;İnşaat;2;2;4;5;17;4;1;1;1;1;1
+23;İzmir Turizm Projesi;Turizm;5;5;4;2;20;4;1;5;1;5;1
+24;Gaziantep Logistik Merkezi;Lojistik;4;4;4;4;20;4;5;1;3;1;1
+25;İstanbul Tiyatro Kompleksi;Kültür;3;3;4;5;16;1;4;3;2;4;4
+26;Antalya Golf Projesi;Spor;4;4;4;5;21;4;2;2;2;3;2
+27;Bursa Yaşlı Bakım Merkezi;Sağlık;2;2;4;4;13;1;1;1;1;1;1
+28;İstanbul Teknoloji Parkı;Teknoloji;4;4;2;3;17;4;3;1;1;1;1
+29;Ankara Baraj Projesi;Enerji;5;5;1;1;13;1;1;1;1;1;1
+30;İzmir Sanat Merkezi;Kültür;3;3;4;4;19;5;1;5;1;1;1
+31;Yeni Apartman;Konut;3;3;4;5;19;4;2;1;1;1;1
+32;İstanbul Tower;İş Merkezi;3;4;1;2;11;1;3;1;3;2;1
+33;Küçük Evler;Konut;1;1;4;5;15;4;4;3;2;2;2
+34;Sanayi Sitesi;Endüstriyel;5;5;3;4;19;2;1;1;1;1;5
+35;Ticari Plaza;İş Merkezi;2;2;2;2;9;1;4;2;3;4;3
+36;İzmir Villaları;Konut;3;3;3;4;16;3;4;1;1;1;1
+37;Otel;Turizm;4;4;1;3;13;1;2;1;1;1;1
+38;Endüstriyel Bina;Endüstriyel;3;3;4;4;19;5;1;5;1;1;1
+39;İstanbul Evleri;Konut;2;1;4;4;12;1;4;1;1;1;1
+40;AVM;Karma;4;4;2;4;18;4;5;1;3;2;1
+41;Bursa Konut;Konut;2;1;4;5;16;4;4;3;2;4;1
+42;İstanbul Marina;Denizcilik;2;2;3;3;13;3;3;3;2;3;1
+43;Ankara Hastane;Sağlık;5;5;3;2;18;3;5;5;1;1;1
+44;İzmir AVM;Ticari;4;4;3;4;17;2;3;1;1;1;1
+45;Adana Otoyol;Ulaştırma;3;3;2;4;14;2;2;1;1;1;1
+46;Trabzon Otel;Turizm;3;2;1;3;11;2;1;1;1;1;1
+47;Antalya Villa;Konut;1;1;4;4;14;4;2;1;1;1;1
+48;İstanbul Stadyum;Spor;5;5;1;1;13;1;3;1;3;2;1
+49;Konferans Merkezi;Kültür;3;3;4;4;18;4;1;3;2;2;2
+50;Lojistik Merkezi;Lojistik;3;3;4;4;19;5;1;1;2;3;2
+51;Konut A;Konut;1;1;4;5;15;4;4;1;3;3;3
+52;Ofis B;Ofis;3;4;4;4;19;4;5;1;1;1;1
+53;Otel C;Otel;4;4;4;3;19;4;1;5;1;1;1
+54;Konut D;Konut;1;1;3;4;11;2;4;1;1;1;1
+55;İş Merkezi E;Ofis;2;2;3;3;12;2;1;1;1;1;1
+56;Konut F;Konut;2;1;3;3;11;2;4;1;3;1;2
+57;Fabrika G;Endüstri;4;3;1;2;12;2;1;1;1;1;1
+58;Ofis H;Ofis;2;1;3;4;14;4;2;2;2;2;2
+59;Sky Tower;Yüksek Bina;5;5;3;2;18;3;1;1;1;1;1
+60;Green Houses;Konut;2;1;2;5;14;4;3;1;1;1;1
+61;Ocean View;Tatil Köyü;3;2;2;4;15;4;2;1;1;4;1
+62;Marina;Liman;2;2;3;3;13;3;1;1;1;1;1
+63;Skyline;Yüksek Bina;3;3;2;2;13;3;2;1;1;1;1
+64;Tower;Yüksek Bina;3;2;2;3;11;1;3;4;3;3;4
+65;Blue Houses;Konut;2;2;4;5;17;4;4;3;1;1;1
+66;Landmark;Ofis;3;4;4;3;18;4;1;1;1;1;1
+67;Seaside;Tatil Köyü;4;4;4;4;19;3;1;1;1;1;1
+68;Park Towers;Kule;5;5;2;2;17;3;1;1;1;1;1
+69;City Plaza;Ofis;2;1;2;1;11;5;1;1;1;1;1
+70;Grand Mall;Turizm;3;3;2;1;11;2;1;1;1;1;1
+71;Blue Tower;Yüksek Bina;5;5;1;3;15;1;2;1;1;1;1
+72;River Side;Konut;2;2;4;4;16;4;3;1;3;1;1
+73;Blue Tower;Konut;5;4;2;3;15;1;4;3;2;2;1
+74;Green Plaza;Ofis;5;5;3;5;19;1;1;1;2;1;2
+75;Park View;Konut;4;4;4;4;19;3;1;1;1;1;5
+76;Tower House;Konut;4;3;3;4;17;3;3;1;1;1;1
+77;City Center;Alışveriş;5;4;3;3;17;2;2;1;1;1;1
+78;Garden Suites;Konut;2;1;4;4;15;4;1;1;1;1;1
+79;Marina Resort;Tatil Köyü;3;2;3;3;12;1;4;1;1;1;1
+80;İstanbul Tower;İş Merkezi;5;5;2;3;19;4;1;1;3;1;1
+81;Antalya Golf;Turizm;1;1;4;4;11;1;4;3;1;1;3
+82;Levent Plaza;İş Merkezi;5;5;1;2;16;3;1;1;1;1;1
+83;Balıkesir Wind;Enerji;3;3;3;4;14;1;4;1;1;3;4
+84;İzmir Resort;Tatil Köyü;3;3;2;3;12;1;4;1;1;1;1
+85;Ankara Tower;İş Merkezi;3;3;1;2;12;3;2;1;1;1;1
+86;Palm Beach Tower;Konut;5;5;2;3;19;4;1;1;1;1;1
+87;Green Valley Hotel;Otel;4;5;2;2;14;1;2;1;1;1;1
+88;Sunset View Residences;Konut;4;4;4;4;20;4;1;1;3;5;1
+89;Sea Breeze Resort;Tatil Köyü;3;3;4;3;15;2;4;4;1;3;1
+90;The Pinnacle;Ofis;2;2;2;3;10;1;3;3;1;4;3
+91;Ocean's Edge;Konut;2;3;4;4;17;4;1;1;1;1;1
+92;Riverfront Plaza;Ticari;2;2;2;3;10;1;3;4;1;1;1
+93;Garden View Residences;Konut;2;2;4;4;16;4;2;1;1;1;1
+94;Diamond Tower;Ofis;2;2;3;3;12;2;1;1;1;1;1
+95;Blue Horizon;Tatil Köyü;2;2;4;3;13;2;2;1;1;1;5
+96;Blue Horizon;Tatil Köyü;2;2;4;3;13;2;2;1;1;1;1
+97;Riverfront Plaza;Ticari;2;2;2;3;10;1;3;4;1;1;1
+98;Marina Resort;Tatil Köyü;3;2;3;3;12;1;4;1;1;1;2
+99;Ankara Tower;İş Merkezi;3;2;1;2;10;2;2;1;1;1;1
+100;Ocean's Edge;Konut;3;3;4;4;17;3;1;1;1;1;1
