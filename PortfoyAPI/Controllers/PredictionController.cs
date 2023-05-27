@@ -8,7 +8,7 @@ using MLDataAccess;
 namespace PortfoyAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class PredictionController : ControllerBase
     {
