@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Entities.DTOs
         public int Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime FinishDate{ get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
         public decimal Budget { get; set; }
         public decimal Revenue { get; set; }
         public string? Description { get; set; }
@@ -21,5 +22,13 @@ namespace Entities.DTOs
         public int DepartmentId { get; set; }
         public int manCount { get; set; }
         public int ResourcePercent { get; set; }
+        public KPI[] Kpis { get; set; }
+        public ProjeDetay[] Subtasks { get; set; }
+        public Risk[] risks { get; set; }
+
+        /*
+         Type String 
+         
+         */
     }
 }
