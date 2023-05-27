@@ -26,9 +26,5 @@ namespace Entities.DTOs
         public ProjeDetay[] Subtasks { get; set; }
         public Risk[] risks { get; set; }
 
-        /*
-         Type String 
-         
-         */
     }
 }

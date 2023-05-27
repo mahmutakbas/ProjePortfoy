@@ -1,5 +1,7 @@
-﻿using Business.Concrete;
+﻿using AutoMapper;
+using Business.Concrete;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,12 @@ namespace PortfoyProje.Controllers
     public class KPIController : ControllerBase
     {
         private readonly IKPIService _kPIService;
+        private readonly IMapper _mapper;
 
-        public KPIController(IKPIService kPIService)
+        public KPIController(IKPIService kPIService,IMapper mapper)
         {
             _kPIService = kPIService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,7 +26,9 @@ namespace PortfoyProje.Controllers
         {
             var result = await _kPIService.GetAll();
 
-            return Ok(result);
+          var resultDto =   _mapper.Map<List<KPI>, List<KPIDto>>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpGet("getbyid/{id}")]
@@ -36,13 +42,17 @@ namespace PortfoyProje.Controllers
             if (result.Data == null)
                 return NotFound(result);
 
-            return Ok(result);
+            var resultDto = _mapper.Map<KPI, KPIDto>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(KPI kPI)
+        public async Task<IActionResult> Create(KPIDto kPI)
         {
-            var result = await _kPIService.AddAsync(kPI);
+            var kPIDto = _mapper.Map<KPIDto, KPI>(kPI);
+
+            var result = await _kPIService.AddAsync(kPIDto);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
@@ -50,9 +60,11 @@ namespace PortfoyProje.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(KPI kPI)
+        public async Task<IActionResult> Update(KPIDto kPI)
         {
-            var result = await _kPIService.Update(kPI);
+            var kPIDto = _mapper.Map<KPIDto, KPI>(kPI);
+
+            var result = await _kPIService.Update(kPIDto);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = result.Message });

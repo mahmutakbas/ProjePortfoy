@@ -39,8 +39,17 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.ProjeGeliri, opt => opt.MapFrom(x => x.Revenue))
                 .ForMember(d => d.ProjeAciklama, opt => opt.MapFrom(x => x.Description))
                 .ForMember(d => d.ProjeMusteri, opt => opt.MapFrom(x => x.Customer))
-                 .ForMember(d => d.DepartmanId, opt => opt.MapFrom(x => x.DepartmentId));
+                .ForMember(d => d.DepartmanId, opt => opt.MapFrom(x => x.DepartmentId));
 
+            CreateMap<KPI, KPIDto>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(d => d.Name, opt => opt.MapFrom(x => x.KPIAdi))
+                .ForMember(d => d.Goal, opt => opt.MapFrom(x => x.Puan));
+
+            CreateMap<KPIDto, KPI>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(d => d.KPIAdi, opt => opt.MapFrom(x => x.Name))
+                .ForMember(d => d.Puan, opt => opt.MapFrom(x => x.Goal));
         }
 
     }
