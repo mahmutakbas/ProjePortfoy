@@ -7,7 +7,7 @@
         public DateTime BaslangicTarihi { get; set; }
         public DateTime BitisTarihi { get; set; }
         public string? ProjeAciklama { get; set; }
-        public bool ProjeDurum { get; set; }
+        public string? ProjeDurum { get; set; }
         public string? ProjeMusteri { get; set; }
         public decimal ProjeButcesi { get; set; }
         public int ProjeKategoriId { get; set; }
