@@ -9,7 +9,7 @@ namespace WebPortfoy.Controllers
 {
 
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class ProjeController : ControllerBase
     {

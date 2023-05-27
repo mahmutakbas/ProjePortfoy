@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace PortfoyProje.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class KPIController : ControllerBase
     {

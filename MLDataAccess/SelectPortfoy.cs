@@ -131,13 +131,13 @@ namespace MLDataAccess
 
         float GetRisk(string risk)
         {
-            if (risk.ToLower().Contains("Çok düşük"))
+            if (risk.ToLower().Contains("çok düşük"))
                 return 5;
-            else if (risk.ToLower().Contains("Çok Yüksek"))
+            else if (risk.ToLower().Contains("çok yüksek"))
                 return 4;
-            else if (risk.ToLower().Contains("Yüksek"))
+            else if (risk.ToLower().Contains("yüksek"))
                 return 3;
-            else if (risk.ToLower().Contains("Orta"))
+            else if (risk.ToLower().Contains("orta"))
                 return 2;
             else
                 return 1;
