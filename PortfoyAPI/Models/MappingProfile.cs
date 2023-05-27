@@ -25,7 +25,8 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.Budget, opt => opt.MapFrom(x => x.ProjeButcesi))
                 .ForMember(d => d.Revenue, opt => opt.MapFrom(x => x.ProjeGeliri))
                 .ForMember(d => d.Description, opt => opt.MapFrom(x => x.ProjeAciklama))
-                .ForMember(d => d.Customer, opt => opt.MapFrom(x => x.ProjeMusteri));
+                .ForMember(d => d.Customer, opt => opt.MapFrom(x => x.ProjeMusteri))
+                .ForMember(d => d.DepartmentId, opt => opt.MapFrom(x => x.DepartmanId));
 
             CreateMap<ProjectDto, Proje>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
@@ -37,7 +38,8 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.ProjeButcesi, opt => opt.MapFrom(x => x.Budget))
                 .ForMember(d => d.ProjeGeliri, opt => opt.MapFrom(x => x.Revenue))
                 .ForMember(d => d.ProjeAciklama, opt => opt.MapFrom(x => x.Description))
-                .ForMember(d => d.ProjeMusteri, opt => opt.MapFrom(x => x.Customer));
+                .ForMember(d => d.ProjeMusteri, opt => opt.MapFrom(x => x.Customer))
+                 .ForMember(d => d.DepartmanId, opt => opt.MapFrom(x => x.DepartmentId));
 
         }
 

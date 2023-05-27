@@ -16,7 +16,6 @@
         proje id int
         name string
         status string
-         
          */
     }
 }

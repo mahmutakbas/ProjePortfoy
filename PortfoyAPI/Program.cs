@@ -41,6 +41,8 @@ builder.Services.AddTransient<ISelectPortfoy, SelectPortfoy>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddCors();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -77,3 +79,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
