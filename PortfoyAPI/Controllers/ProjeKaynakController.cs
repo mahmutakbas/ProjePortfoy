@@ -1,29 +1,24 @@
 ﻿using Business.Concrete;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PortfoyProje.Controllers
+namespace PortfoyAPI.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
     [ApiController]
-    public class ProjeKategoriController : ControllerBase
+    public class ProjeKaynakController : ControllerBase
     {
-        private readonly IProjeKategoriService _projeKategoriService;
+        private readonly IProjeKaynakService _projeKaynakService;
 
-        private readonly List<object> list = new List<object>();
-
-        public ProjeKategoriController(IProjeKategoriService projeKategoriService)
+        public ProjeKaynakController(IProjeKaynakService projeKaynakService)
         {
-            _projeKategoriService = projeKategoriService;
+            _projeKaynakService = projeKaynakService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _projeKategoriService.GetAll();
+            var result = await _projeKaynakService.GetAll();
 
             return Ok(result);
         }
@@ -34,7 +29,7 @@ namespace PortfoyProje.Controllers
             if (id < 1)
                 return BadRequest("Item Not Found");
 
-            var result = await _projeKategoriService.Get(id);
+            var result = await _projeKaynakService.Get(id);
 
             if (result.Data == null)
                 return NotFound(result);
@@ -43,9 +38,9 @@ namespace PortfoyProje.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProjeKategori projeKategori)
+        public async Task<IActionResult> Create(ProjeKaynak kaynak)
         {
-            var result = await _projeKategoriService.AddAsync(projeKategori);
+            var result = await _projeKaynakService.AddAsync(kaynak);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
@@ -53,9 +48,9 @@ namespace PortfoyProje.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(ProjeKategori projeKategori)
+        public async Task<IActionResult> Update(ProjeKaynak kaynak)
         {
-            var result = await _projeKategoriService.Update(projeKategori);
+            var result = await _projeKaynakService.Update(kaynak);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = result.Message });
@@ -65,7 +60,7 @@ namespace PortfoyProje.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delte(int id)
         {
-            var result = await _projeKategoriService.Delete(id);
+            var result = await _projeKaynakService.Delete(id);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = "Kayıt Silme Başarısız" });

@@ -23,6 +23,7 @@ builder.Services.AddTransient<IProjeKategoriDal, ProjeKategoriDal>();
 builder.Services.AddTransient<IProjeKPIDal, ProjeKPIDal>();
 builder.Services.AddTransient<IRiskDal, RiskDal>();
 builder.Services.AddTransient<IUserDal, UserDal>();
+builder.Services.AddTransient<IProjeKaynakDal, ProjeKaynakDto>();
 
 
 //Manager
@@ -36,6 +37,7 @@ builder.Services.AddTransient<IProjeKategoriService, ProjeKategoriManager>();
 builder.Services.AddTransient<IProjeKPIService, ProjeKPIManager>();
 builder.Services.AddTransient<IRiskService, RiskManager>();
 builder.Services.AddTransient<IUserService, UserManager>();
+builder.Services.AddTransient<IProjeKaynakService, ProjeKaynakManager>();
 
 builder.Services.AddTransient<ISelectPortfoy, SelectPortfoy>();
 

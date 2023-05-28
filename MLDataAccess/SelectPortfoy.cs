@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Analysis;
 using Microsoft.ML;
 using Microsoft.ML.Data;
+using System.Data;
 using System.Text;
 
 namespace MLDataAccess
@@ -11,7 +12,6 @@ namespace MLDataAccess
     }
 
     public class SelectPortfoy : ISelectPortfoy
-
     {
 
         public Task<List<ProjectPrediction>> MLPrediction()
@@ -26,7 +26,9 @@ namespace MLDataAccess
 
             var estimator = context.Transforms.NormalizeMinMax("Label", "Sonuc")
                         .Append(context.Transforms.Categorical.OneHotEncoding("ProjeTipi"))
-                        .Append(context.Transforms.Concatenate("Features", "Butce", "TahminiKar", "IsGucu", "KaynakKullanim", "Sure", "Risk1", "Risk2", "Risk3", "Risk4", "Risk5", "Sonuc", "ProjeTipi")).Append(context.Transforms.NormalizeMinMax("Features"));
+                        .Append(context.Transforms.Concatenate("Features", "Butce", "TahminiKar", "IsGucu", "KaynakKullanim", "Sure", "Risk1", "Risk2", "Risk3", "Risk4", "Risk5", "Sonuc", "ProjeTipi")).Append(context.Transforms.ProjectToPrincipalComponents("Features",rank:5));
+
+            var pcaResult   = estimator.Fit(data).Transform(data);
 
             var trainer = context.Regression.Trainers.FastForest();
 

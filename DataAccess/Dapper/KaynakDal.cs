@@ -14,7 +14,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("INSERT INTO Kaynaks (KaynakAdi, KaynakMiktari) VALUES (@KaynakAdi, @KaynakMiktari)", new { KaynakAdi = entity.KaynakAdi, KaynakMiktari = entity.KaynakMiktari });
+                var result = await con.ExecuteAsync("INSERT INTO Kaynaks (KaynakAdi, KaynakMiktari,DepartmanId) VALUES (@KaynakAdi, @KaynakMiktari,@DepartmanId)", new { KaynakAdi = entity.KaynakAdi, KaynakMiktari = entity.KaynakMiktari, DepartmanId = entity.DepartmanId });
                 return result;
             }
         }
@@ -62,7 +62,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("UPDATE INTO Kaynaks (KaynakAdi, KaynakMiktari) VALUES (@KaynakAdi, @KaynakMiktari)", new { KaynakAdi = entity.KaynakAdi, KaynakMiktari = entity.KaynakMiktari});
+                var result = await con.ExecuteAsync("UPDATE INTO Kaynaks (KaynakAdi, KaynakMiktari,DepartmanId) VALUES (@KaynakAdi, @KaynakMiktari,@DepartmanId)", new { KaynakAdi = entity.KaynakAdi, KaynakMiktari = entity.KaynakMiktari, DepartmanId = entity.DepartmanId });
                 return result;
             }
         }

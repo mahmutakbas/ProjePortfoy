@@ -13,11 +13,6 @@ namespace Business.Utilities.ValidationRules.FluentValidation
         public RiskValidator()
         {
             RuleFor(r => r.RiskTanimi).MinimumLength(3).MaximumLength(200).NotNull();
-            RuleFor(r => r.RiskKategorisi).MinimumLength(3).MaximumLength(200).NotNull();
-            RuleFor(r => r.Olasilik).GreaterThan(0);
-            RuleFor(r => r.Etki).GreaterThan(0);
-            RuleFor(r => r.RiskSkoru).GreaterThan(0);
-            RuleFor(r => r.RiskOnceligi).GreaterThan(0);
         }
     }
 }

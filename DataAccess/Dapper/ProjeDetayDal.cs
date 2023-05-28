@@ -13,7 +13,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("INSERT INTO ProjeDetays (ProjeId, KaynakId, KaynakMiktari) VALUES (@ProjeId, @KaynakId, @KaynakMiktari);", new { ProjeId = entity.ProjeId, KaynakId = entity.KaynakId, KaynakMiktari = entity.KaynakId });
+                var result = await con.ExecuteAsync("INSERT INTO ProjeDetays (ProjeId, Aciklama, BaslangicTarihi, BitisTarihi, Durum) VALUES (@ProjeId, @Aciklama, @BaslangicTarihi, @BitisTarihi, @Durum);", new { ProjeId = entity.ProjeId, Aciklama=entity.Aciklama, BaslangicTarihi=entity.BaslangicTarihi, BitisTarihi=entity.BitisTarihi, Durum = entity.Durum});
                 return result;
             }
         }
@@ -49,7 +49,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("UPDATE ProjeDetays SET ProjeId=@ProjeId, KaynakId=@KaynakId, KaynakMiktari=@KaynakMiktari WHERE ID =@Id;", new { Id = entity.Id, ProjeId = entity.ProjeId, KaynakId = entity.KaynakId, KaynakMiktari = entity.KaynakId });
+                var result = await con.ExecuteAsync("UPDATE ProjeDetays SET ProjeId=@ProjeId, Aciklama=@Aciklama, BaslangicTarihi=@BaslangicTarihi, BitisTarihi=@BitisTarihi, Durum=@Durum WHERE ID =@Id;", new { Id = entity.Id, ProjeId = entity.ProjeId, Aciklama = entity.Aciklama, BaslangicTarihi = entity.BaslangicTarihi, BitisTarihi = entity.BitisTarihi, Durum = entity.Durum });
                 return result;
             }
         }
