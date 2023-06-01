@@ -7,6 +7,11 @@ namespace DataAccess.Dapper
     public interface IDepartmentDal : IBaseRepository<Departman>
     {
         Task<bool> IsExist(Departman entity);
+      /*
+       Riskler çıkartılacak
+       Departmanlar tıkladığında o epratmana ait kaynak
+       Projenin { Riskler, Departmanlar, Kaynaklar}
+       */
     }
     public class DepartmanDal : IDepartmentDal
     {

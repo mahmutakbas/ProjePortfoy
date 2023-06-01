@@ -1,5 +1,8 @@
-﻿using Business.Concrete;
+﻿using AutoMapper;
+using Business.Concrete;
 using Entities.Concrete;
+using Entities.DTOs;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +14,11 @@ namespace PortfoyProje.Controllers
     public class KaynakController : ControllerBase
     {
         private readonly IKaynakService _kaynakService;
-
-        public KaynakController(IKaynakService kaynakService)
+        private readonly IMapper _mapper;
+        public KaynakController(IKaynakService kaynakService, IMapper mapper)
         {
             _kaynakService = kaynakService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,7 +26,12 @@ namespace PortfoyProje.Controllers
         {
             var result = await _kaynakService.GetAll();
 
-            return Ok(result);
+            if(result.Data.Count == 0)
+                return Ok(result);
+
+            var resultDto = _mapper.Map<List<Kaynak>, List<KaynakDto>>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpGet("getbyid/{id}")]
@@ -36,23 +45,30 @@ namespace PortfoyProje.Controllers
             if (result.Data == null)
                 return NotFound(result);
 
-            return Ok(result);
+            var resultDto = _mapper.Map<Kaynak, KaynakDto>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Kaynak kaynak)
+        public async Task<IActionResult> Create(KaynakDto kaynak)
         {
-            var result = await _kaynakService.AddAsync(kaynak);
+            var kaynkaDto = _mapper.Map<KaynakDto, Kaynak>(kaynak);
+
+            var result = await _kaynakService.AddAsync(kaynkaDto);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
+
             return Ok(new { isSuccess = true, Message = "Kayıt Başarılı" });
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(Kaynak kaynak)
+        public async Task<IActionResult> Update(KaynakDto kaynak)
         {
-            var result = await _kaynakService.Update(kaynak);
+            var kaynkaDto = _mapper.Map<KaynakDto, Kaynak>(kaynak);
+
+            var result = await _kaynakService.Update(kaynkaDto);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = result.Message });

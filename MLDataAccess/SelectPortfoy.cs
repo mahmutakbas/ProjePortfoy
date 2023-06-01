@@ -26,9 +26,9 @@ namespace MLDataAccess
 
             var estimator = context.Transforms.NormalizeMinMax("Label", "Sonuc")
                         .Append(context.Transforms.Categorical.OneHotEncoding("ProjeTipi"))
-                        .Append(context.Transforms.Concatenate("Features", "Butce", "TahminiKar", "IsGucu", "KaynakKullanim", "Sure", "Risk1", "Risk2", "Risk3", "Risk4", "Risk5", "Sonuc", "ProjeTipi")).Append(context.Transforms.ProjectToPrincipalComponents("Features",rank:5));
+                        .Append(context.Transforms.Concatenate("Features", "Butce", "TahminiKar", "IsGucu", "KaynakKullanim", "Sure", "Risk1", "Risk2", "Risk3", "Risk4", "Risk5", "Sonuc", "ProjeTipi")).Append(context.Transforms.ProjectToPrincipalComponents("Features", rank: 5));
 
-            var pcaResult   = estimator.Fit(data).Transform(data);
+            var pcaResult = estimator.Fit(data).Transform(data);
 
             var trainer = context.Regression.Trainers.FastForest();
 

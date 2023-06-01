@@ -25,7 +25,7 @@ namespace PortfoyProje.Controllers
         {
             var result = await _projeKategoriService.GetAll();
 
-            return Ok(result);
+            return Ok(result.Data);
         }
 
         [HttpGet("getbyid/{id}")]

@@ -77,7 +77,18 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.RiskTanimi, opt => opt.MapFrom(x => x.Name))
                 .ForMember(d => d.RiskDurumu, opt => opt.MapFrom(x => x.Status));
 
+            CreateMap<Kaynak, KaynakDto>()
+                 .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(d => d.DepartmentId, opt => opt.MapFrom(x => x.DepartmanId))
+                .ForMember(d => d.Name, opt => opt.MapFrom(x => x.KaynakAdi))
+                .ForMember(d => d.Item, opt => opt.MapFrom(x => x.KaynakMiktari));
 
+
+            CreateMap<KaynakDto,Kaynak >()
+             .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
+            .ForMember(d => d.DepartmanId, opt => opt.MapFrom(x => x.DepartmentId))
+            .ForMember(d => d.KaynakAdi, opt => opt.MapFrom(x => x.Name))
+            .ForMember(d => d.KaynakMiktari, opt => opt.MapFrom(x => x.Item));
         }
     }
 }

@@ -6,6 +6,7 @@ namespace DataAccess.Dapper
 {
     public interface IRiskDal : IBaseRepository<Risk>
     {
+        Task<IEnumerable<Risk>> GetRiskByProjectId(int projectId);  
     }
     public class RiskDal : IRiskDal
     {
@@ -48,6 +49,16 @@ namespace DataAccess.Dapper
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
                 var result = await con.QueryAsync<Risk>("SELECT * FROM Risks");
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Risk>> GetRiskByProjectId(int projectId)
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.QueryAsync<Risk>("SELECT * FROM Risks  WHERE ID = @Id " , new { Id = projectId });
+
                 return result;
             }
         }
