@@ -27,7 +27,7 @@ namespace PortfoyProje.Controllers
             var result = await _kaynakService.GetAll();
 
             if(result.Data.Count == 0)
-                return Ok(result);
+                return Ok(null);
 
             var resultDto = _mapper.Map<List<Kaynak>, List<KaynakDto>>(result.Data);
 
