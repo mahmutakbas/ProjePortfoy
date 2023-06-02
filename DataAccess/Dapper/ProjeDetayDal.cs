@@ -13,7 +13,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("INSERT INTO ProjeDetays (ProjeId, Aciklama, BaslangicTarihi, BitisTarihi) VALUES (@ProjeId, @Aciklama, @BaslangicTarihi, @BitisTarihi, @Durum);", new { ProjeId = entity.ProjeId, Aciklama=entity.Aciklama, BaslangicTarihi=entity.BaslangicTarihi, BitisTarihi=entity.BitisTarihi});
+                var result = await con.ExecuteAsync("INSERT INTO ProjeDetays (ProjeId, Aciklama, BaslangicTarihi, BitisTarihi) VALUES (@ProjeId, @Aciklama, @BaslangicTarihi, @BitisTarihi);", new { ProjeId = entity.ProjeId, Aciklama=entity.Aciklama, BaslangicTarihi=entity.BaslangicTarihi, BitisTarihi=entity.BitisTarihi});
                 return result;
             }
         }

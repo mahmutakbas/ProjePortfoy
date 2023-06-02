@@ -56,16 +56,16 @@ namespace PortfoyAPI.Models
                     .ForMember(d => d.ProjectId, opt => opt.MapFrom(x => x.ProjeId))
                     .ForMember(d => d.Name, opt => opt.MapFrom(x => x.Aciklama))
                     .ForMember(d => d.StartDate, opt => opt.MapFrom(x => x.BaslangicTarihi))
-                    .ForMember(d => d.FinishDate, opt => opt.MapFrom(x => x.BitisTarihi))
-                    .ForMember(d => d.Status, opt => opt.MapFrom(x => x.Durum));
+                    .ForMember(d => d.FinishDate, opt => opt.MapFrom(x => x.BitisTarihi));
+
 
             CreateMap<ProjeDetayDto, ProjeDetay>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(d => d.ProjeId, opt => opt.MapFrom(x => x.ProjectId))
                 .ForMember(d => d.Aciklama, opt => opt.MapFrom(x => x.Name))
                 .ForMember(d => d.BaslangicTarihi, opt => opt.MapFrom(x => x.StartDate))
-                .ForMember(d => d.BitisTarihi, opt => opt.MapFrom(x => x.FinishDate))
-                .ForMember(d => d.Durum, opt => opt.MapFrom(x => x.Status));
+                .ForMember(d => d.BitisTarihi, opt => opt.MapFrom(x => x.FinishDate));
+               
 
             CreateMap<Risk, RiskDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
