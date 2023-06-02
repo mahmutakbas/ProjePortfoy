@@ -28,12 +28,6 @@ namespace Business.Concrete
         {
             if (entity != null)
             {
-                var errorMessages = ValidationTool.Validate(new KaynakValidator(), entity);
-
-                if (!string.IsNullOrEmpty(errorMessages))
-                {
-                    return new DataResult<int>(0, false, errorMessages);
-                }
                 entity.Id = 0;
                 var isExist = await _projeKaynakDal.IsExist(entity);
 

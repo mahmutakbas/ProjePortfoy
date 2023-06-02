@@ -2,8 +2,6 @@
 using Business.Concrete;
 using Entities.Concrete;
 using Entities.DTOs;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PortfoyProje.Controllers
@@ -26,7 +24,7 @@ namespace PortfoyProje.Controllers
         {
             var result = await _kaynakService.GetAll();
 
-            if(result.Data.Count == 0)
+            if (result.Data.Count == 0)
                 return Ok(null);
 
             var resultDto = _mapper.Map<List<Kaynak>, List<KaynakDto>>(result.Data);
