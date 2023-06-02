@@ -72,12 +72,14 @@ namespace PortfoyAPI.Models
 
 
             CreateMap<Risk, RiskDto>()
+                .ForMember(d=>d.ProjectId , opt=>opt.MapFrom(x=>x.ProjeId))
                 .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(d => d.Name, opt => opt.MapFrom(x => x.RiskTanimi))
                 .ForMember(d => d.Status, opt => opt.MapFrom(x => x.RiskDurumu));
 
             CreateMap<RiskDto, Risk>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(d=>d.ProjeId , opt=>opt.MapFrom(x=>x.ProjectId))
                 .ForMember(d => d.RiskTanimi, opt => opt.MapFrom(x => x.Name))
                 .ForMember(d => d.RiskDurumu, opt => opt.MapFrom(x => x.Status));
 
