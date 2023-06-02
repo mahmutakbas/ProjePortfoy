@@ -1,8 +1,4 @@
-﻿using Business.Concrete;
-using Entities.Concrete;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MLDataAccess;
 
 namespace PortfoyAPI.Controllers
@@ -20,15 +16,15 @@ namespace PortfoyAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Predict()
+        public async Task<IActionResult> Predict(IEnumerable<ProjectGetData> data)
         {
-            var result = await _selectPortfoy.MLPrediction();
+            var result = await _selectPortfoy.MLPredictionTest(data);
 
             List<object> newObje = new List<object>();
 
             foreach (var item in result)
             {
-                newObje.Add(new { Id = item.Id,Name=item.ProjeIsmi, Puan = item.Sonuc});
+                newObje.Add(new { Id = item.Id, Name = item.ProjeIsmi, Puan = item.Sonuc });
 
             }
 

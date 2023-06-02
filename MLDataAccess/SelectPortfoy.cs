@@ -8,56 +8,151 @@ namespace MLDataAccess
 {
     public interface ISelectPortfoy
     {
-        Task<List<ProjectPrediction>> MLPrediction();
+        Task<List<ProjectPrediction>> MLPrediction(IEnumerable<ProjectGetData> itemList);
+        Task<List<ProjectPrediction>> MLPredictionTest(IEnumerable<ProjectGetData> itemList);
     }
 
     public class SelectPortfoy : ISelectPortfoy
     {
 
-        public Task<List<ProjectPrediction>> MLPrediction()
+        public Task<List<ProjectPrediction>> MLPredictionTest(IEnumerable<ProjectGetData> itemList)
         {
-            //  Present();
-
             var context = new MLContext();
 
-            var data = context.Data.LoadFromTextFile<ProjectData>("projeler-veri-csv.csv", separatorChar: ';');
 
-            var trainTestData = context.Data.TrainTestSplit(data, 0.25);
-
-            var estimator = context.Transforms.NormalizeMinMax("Label", "Sonuc")
-                        .Append(context.Transforms.Categorical.OneHotEncoding("ProjeTipi"))
-                        .Append(context.Transforms.Concatenate("Features", "Butce", "TahminiKar", "IsGucu", "KaynakKullanim", "Sure", "Risk1", "Risk2", "Risk3", "Risk4", "Risk5", "Sonuc", "ProjeTipi")).Append(context.Transforms.ProjectToPrincipalComponents("Features", rank: 5));
-
-            var pcaResult = estimator.Fit(data).Transform(data);
-
-            var trainer = context.Regression.Trainers.FastForest();
-
-            var model1 = estimator.Append(trainer);
-
-            var model = model1.Fit(trainTestData.TrainSet);
-
-            var testPredictions = model.Transform(trainTestData.TestSet);
-
-            var metrics = context.Regression.Evaluate(testPredictions);
-            Console.WriteLine($"Accuracy: {metrics.LossFunction} {metrics.RSquared} {metrics.MeanSquaredError} {metrics.RootMeanSquaredError}");
-
-            foreach (var item in testPredictions.Preview().RowView)
+            if (itemList != null)
             {
-                Console.WriteLine($"{item.Values[0]} --- {item.Values[8]} --- {item.Values[18]}");
+                List<ProjectData> projects = new List<ProjectData>();
+                foreach (var item in itemList)
+                {
+                    ProjectData project = new ProjectData();
+
+                    DateTime baslangicTarihi = item.StartDate;
+                    DateTime bitisTarihi = item.FinishDate;
+                    float fark = (float)Math.Round(bitisTarihi.Subtract(baslangicTarihi).TotalDays / 360);
+
+                    project.ProjeIsmi = "aa";
+                    project.Sure = fark;
+
+                    project.Butce = GetButce((float)item.Budget);
+                    project.TahminiKar = GetTahminKar(item.Revenue);
+                    project.IsGucu = GetIsgucu((float)item.ManCount);
+                    project.KaynakKullanim = GetKaynak((float)item.ResourcPercent);
+                    project.Risk1 = GetRisk(item?.Risk1!.ToString());
+                    project.Risk2 = GetRisk(item?.Risk2!.ToString());
+                    project.Risk3 = GetRisk(item?.Risk3!.ToString());
+                    project.Risk4 = GetRisk(item?.Risk4!.ToString());
+                    project.Risk5 = GetRisk(item?.Risk5!.ToString());
+
+                    project.Sonuc = (float)(Math.Round(project.Sure + project.Butce + project.TahminiKar + project.IsGucu + project.KaynakKullanim + ((project.Risk1 + project.Risk2 + project.Risk3 + project.Risk4 + project.Risk5) / 5) / 10));
+
+                    projects.Add(project);
+                }
+
+
+
+                using (var stream = new FileStream("model.zip", FileMode.Open))
+                {
+                    // Modeli yükleme
+                    var loadedModel = context.Model.Load(stream, out var modelSchema);
+
+                    // Tahminlerde bulunma
+                    var predictionEngine = context.Model.CreatePredictionEngine<ProjectData, ProjectPrediction>(loadedModel);
+
+
+                    List<ProjectPrediction> predict = new List<ProjectPrediction>();
+
+                    foreach (var inputData in projects)
+                    {
+                        predict.Add(predictionEngine.Predict(inputData));
+                    }
+
+                    return Task.FromResult(predict.OrderByDescending(p => p.Sonuc).ToList());
+
+                }
             }
 
-            var predictionData = context.Data.CreateEnumerable<ProjectPrediction>(testPredictions, reuseRowObject: false).ToList();
+            return null;
+         
+        }
 
-            var newPre = predictionData.OrderByDescending(p => p.Sonuc).ToList();
 
-            foreach (var item in newPre)
+
+        public Task<List<ProjectPrediction>> MLPrediction(IEnumerable<ProjectGetData> itemList)
+        {
+            if (itemList != null)
             {
-                Console.WriteLine($"Proje : {item.ProjeIsmi} \tBütçe : {item.Butce}  \tKaynak Kullanımı : {item.KaynakKullanim} \tSonuc: {item.Sonuc}");
+                List<ProjectData> projects = new List<ProjectData>();
+                foreach (var item in itemList)
+                {
+                    ProjectData project = new ProjectData();
+
+                    DateTime baslangicTarihi = item.StartDate;
+                    DateTime bitisTarihi = item.FinishDate;
+                    float fark = (float)Math.Round(bitisTarihi.Subtract(baslangicTarihi).TotalDays / 360);
+
+                    project.ProjeIsmi = "aa";
+                    project.Sure = fark;
+
+                    project.Butce = GetButce((float)item.Budget);
+                    project.TahminiKar = GetTahminKar(item.Revenue);
+                    project.IsGucu = GetIsgucu((float)item.ManCount);
+                    project.KaynakKullanim = GetKaynak((float)item.ResourcPercent);
+                    project.Risk1 = GetRisk(item?.Risk1!.ToString());
+                    project.Risk2 = GetRisk(item?.Risk2!.ToString());
+                    project.Risk3 = GetRisk(item?.Risk3!.ToString());
+                    project.Risk4 = GetRisk(item?.Risk4!.ToString());
+                    project.Risk5 = GetRisk(item?.Risk5!.ToString());
+
+                    project.Sonuc = (float)(Math.Round(project.Sure + project.Butce + project.TahminiKar + project.IsGucu + project.KaynakKullanim + ((project.Risk1 + project.Risk2 + project.Risk3 + project.Risk4 + project.Risk5) / 5) / 10));
+
+                    projects.Add(project);
+                }
+
+
+                var context = new MLContext();
+
+                var data = context.Data.LoadFromEnumerable<ProjectGetData>((IEnumerable<ProjectGetData>)projects);
+
+                var trainTestData = context.Data.TrainTestSplit(data, 0.25);
+
+                var estimator = context.Transforms.NormalizeMinMax("Label", "Sonuc")
+                            .Append(context.Transforms.Categorical.OneHotEncoding("ProjeTipi"))
+                            .Append(context.Transforms.Concatenate("Features", "Butce", "TahminiKar", "IsGucu", "KaynakKullanim", "Sure", "Risk1", "Risk2", "Risk3", "Risk4", "Risk5", "Sonuc", "ProjeTipi")).Append(context.Transforms.ProjectToPrincipalComponents("Features", rank: 5));
+
+                var pcaResult = estimator.Fit(data).Transform(data);
+
+                var trainer = context.Regression.Trainers.FastForest();
+
+                var model1 = estimator.Append(trainer);
+
+                var model = model1.Fit(trainTestData.TrainSet);
+
+                var testPredictions = model.Transform(trainTestData.TestSet);
+
+                var metrics = context.Regression.Evaluate(testPredictions);
+                Console.WriteLine($"Accuracy: {metrics.LossFunction} {metrics.RSquared} {metrics.MeanSquaredError} {metrics.RootMeanSquaredError}");
+
+                foreach (var item in testPredictions.Preview().RowView)
+                {
+                    Console.WriteLine($"{item.Values[0]} --- {item.Values[8]} --- {item.Values[18]}");
+                }
+
+                var predictionData = context.Data.CreateEnumerable<ProjectPrediction>(testPredictions, reuseRowObject: false).ToList();
+
+                var newPre = predictionData.OrderByDescending(p => p.Sonuc).ToList();
+
+                foreach (var item in newPre)
+                {
+                    Console.WriteLine($"Proje : {item.ProjeIsmi} \tBütçe : {item.Butce}  \tKaynak Kullanımı : {item.KaynakKullanim} \tSonuc: {item.Sonuc}");
+                }
+
+                //context.Model.Save(model, data.Schema, "model.zip");
+
+                return Task.FromResult(newPre);
             }
 
-            context.Model.Save(model, data.Schema, "model.zip");
-
-            return Task.FromResult(newPre);
+            return null;
         }
 
 
@@ -218,6 +313,23 @@ namespace MLDataAccess
 
             DataFrame.SaveCsv(dataFrame, "projeler-veri-csv.csv", separator: ';', header: true, encoding: Encoding.UTF8);
         }
+    }
+
+    public class ProjectGetData
+    {
+        [LoadColumn(0)] public float Id { get; set; }
+        [LoadColumn(1)] public string? ProjeIsmi;
+        [LoadColumn(3)] public float Budget;
+        [LoadColumn(4)] public float Revenue;
+        [LoadColumn(5)] public float ManCount;
+        [LoadColumn(6)] public float ResourcPercent;
+        [LoadColumn(7)] public DateTime StartDate;
+        [LoadColumn(8)] public DateTime FinishDate;
+        [LoadColumn(9)] public string? Risk1;
+        [LoadColumn(10)] public string? Risk2;
+        [LoadColumn(11)] public string? Risk3;
+        [LoadColumn(12)] public string? Risk4;
+        [LoadColumn(12)] public string? Risk5;
     }
     public class ProjectData
     {
