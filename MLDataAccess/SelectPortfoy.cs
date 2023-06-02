@@ -9,21 +9,20 @@ namespace MLDataAccess
     public interface ISelectPortfoy
     {
         Task<List<ProjectPrediction>> MLPrediction(IEnumerable<ProjectGetData> itemList);
-        Task<List<ProjectPrediction>> MLPredictionTest(List<ProjectGetData> itemList);
+        Task<List<ProjectPrediction>> MLPredictionTest(ModelPredictionDto predictionDto);
     }
 
     public class SelectPortfoy : ISelectPortfoy
     {
 
-        public Task<List<ProjectPrediction>> MLPredictionTest(List<ProjectGetData> itemList)
+        public Task<List<ProjectPrediction>> MLPredictionTest(ModelPredictionDto predictionDto)
         {
             var context = new MLContext();
 
-
-            if (itemList != null)
+            if (predictionDto.ItemList != null)
             {
                 List<ProjectData> projects = new List<ProjectData>();
-                foreach (var item in itemList)
+                foreach (var item in predictionDto.ItemList)
                 {
                     ProjectData project = new ProjectData();
 
@@ -66,7 +65,21 @@ namespace MLDataAccess
                         predict.Add(predictionEngine.Predict(inputData));
                     }
                     //bütçe, süre, kaynak, işçi
-                    return Task.FromResult(predict.OrderByDescending(p => p.Sonuc).ThenByDescending(p => p.Butce).ThenBy(p => p.KaynakKullanim).ToList());
+
+                    var ordered = predict.OrderByDescending(p => p.Sonuc);
+                    if(predictionDto.strategyName == "Bütçe")
+                    {
+                        ordered=ordered.ThenByDescending(p=> p.Butce);
+                    }
+                    else if(predictionDto.strategyName == "Kaynka")
+                    {
+                        ordered = ordered.ThenByDescending(p => p.KaynakKullanim);
+                    }
+                    else if(predictionDto.strategyName == "Süre")
+                    {
+                        ordered = ordered.ThenByDescending(p => p.Sure);
+                    }
+                    return Task.FromResult(ordered.ToList());
                 }
             }
 
@@ -362,6 +375,9 @@ namespace MLDataAccess
         [ColumnName("Butce")]
         public float Butce;
 
+        [ColumnName("Sure")]
+        public float Sure;
+
         [ColumnName("TahminiKar")]
         public float TahminiKar;
 
@@ -373,5 +389,10 @@ namespace MLDataAccess
 
         [ColumnName("Sonuc")]
         public float Sonuc;
+    }
+    public class ModelPredictionDto
+    {
+      public  List<ProjectGetData>? ItemList { get; set; }
+        public string? strategyName { get; set; }
     }
 }

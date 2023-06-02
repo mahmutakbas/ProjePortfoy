@@ -24,9 +24,9 @@ namespace PortfoyAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Predict(List<ProjectGetData> data)
+        public async Task<IActionResult> Predict(ModelPredictionDto predictionDto)
         {
-            var result = await _selectPortfoy.MLPredictionTest(data);
+            var result = await _selectPortfoy.MLPredictionTest(predictionDto);
 
             List<ProjectDto> newObje = new List<ProjectDto>();
 
