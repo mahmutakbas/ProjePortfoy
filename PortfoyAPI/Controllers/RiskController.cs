@@ -1,5 +1,8 @@
-﻿using Business.Concrete;
+﻿using AutoMapper;
+using Business.Concrete;
+using DataAccess.Dapper;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +14,11 @@ namespace PortfoyProje.Controllers
     public class RiskController : ControllerBase
     {
         private readonly IRiskService _riskService;
-
-        public RiskController(IRiskService riskService)
+        private readonly IMapper _mapper;
+        public RiskController(IRiskService riskService, IMapper mapper)
         {
             _riskService = riskService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,7 +26,12 @@ namespace PortfoyProje.Controllers
         {
             var result = await _riskService.GetAll();
 
-            return Ok(result);
+            if (result.Data.Count == 0)
+                return Ok(null);
+
+            var resultDto = _mapper.Map<List<Risk>, List<RiskDto>>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpGet("getbyid/{id}")]
@@ -36,12 +45,16 @@ namespace PortfoyProje.Controllers
             if (result.Data == null)
                 return NotFound(result);
 
-            return Ok(result);
+            var resultDto = _mapper.Map<Risk, RiskDto>(result.Data);
+
+            return Ok(resultDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Risk risk)
+        public async Task<IActionResult> Create(RiskDto riskDto)
         {
+
+            var risk = _mapper.Map<RiskDto, Risk>(riskDto);
             var result = await _riskService.AddAsync(risk);
 
             if (!result.Success)
@@ -50,8 +63,11 @@ namespace PortfoyProje.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(Risk risk)
+        public async Task<IActionResult> Update(RiskDto riskDto)
         {
+
+            var risk = _mapper.Map<RiskDto, Risk>(riskDto);
+
             var result = await _riskService.Update(risk);
 
             if (!result.Success)

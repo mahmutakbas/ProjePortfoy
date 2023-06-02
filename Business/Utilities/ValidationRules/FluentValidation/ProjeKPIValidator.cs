@@ -8,7 +8,7 @@ namespace Business.Utilities.ValidationRules.FluentValidation
         public ProjeKPIValidator()
         {
             RuleFor(pk => pk.ProjeId).NotNull();
-            RuleFor(pk => pk.KPID).NotNull();
+            RuleFor(pk => pk.Name).NotNull();
         }
     }
 }

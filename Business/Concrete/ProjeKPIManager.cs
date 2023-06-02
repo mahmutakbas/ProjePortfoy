@@ -11,22 +11,22 @@ namespace Business.Concrete
     public class ProjeKPIManager : IProjeKPIService
     {
         private readonly IProjeKPIDal _projeKPIDal;
+        private readonly IProjeDal _projeDal;
 
-        public ProjeKPIManager(IProjeKPIDal projeKPIDal)
+        public ProjeKPIManager(IProjeKPIDal projeKPIDal, IProjeDal projeDal)
         {
             _projeKPIDal = projeKPIDal;
+            _projeDal = projeDal;
         }
 
         public async Task<IDataResult<int>> AddAsync(ProjeKPI entity)
         {
             if (entity != null)
             {
-                var errorMessages = ValidationTool.Validate(new ProjeKPIValidator(), entity);
+              
+                var isTrue = await _projeDal.Get(entity.ProjeId);
 
-                if (!string.IsNullOrEmpty(errorMessages))
-                {
-                    return new DataResult<int>(0, false, errorMessages);
-                }
+
 
                 var result = await _projeKPIDal.Add(entity);
 
@@ -74,13 +74,6 @@ namespace Business.Concrete
         {
             if (entity != null)
             {
-                var errorMessages = ValidationTool.Validate(new ProjeKPIValidator(), entity);
-
-                if (!string.IsNullOrEmpty(errorMessages))
-                {
-                    return new DataResult<int>(0, false, errorMessages);
-                }
-
                 var isTrue = await _projeKPIDal.Get(entity.Id);
 
                 if (isTrue == null)
