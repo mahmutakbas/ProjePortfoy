@@ -1,5 +1,8 @@
-﻿using Business.Concrete;
+﻿using AutoMapper;
+using Business.Concrete;
+using DataAccess.Dapper;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +15,12 @@ namespace PortfoyProje.Controllers
     public class ProjeDetayController : ControllerBase
     {
         private readonly IProjeDetayService _projeDetayService;
+        private readonly IMapper _mapper;
 
-        public ProjeDetayController(IProjeDetayService projeDetayService)
+        public ProjeDetayController(IProjeDetayService projeDetayService,IMapper mapper)
         {
             _projeDetayService = projeDetayService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,7 +28,11 @@ namespace PortfoyProje.Controllers
         {
             var result = await _projeDetayService.GetAll();
 
-            return Ok(result);
+            if (result.Data.Count == 0)
+                return Ok(null);
+
+            var projeDetay = _mapper.Map<List<ProjeDetay>, List<ProjeDetayDto>>(result.Data);
+            return Ok(projeDetay);
         }
 
         [HttpGet("getbyid/{id}")]
@@ -37,12 +46,17 @@ namespace PortfoyProje.Controllers
             if (result.Data == null)
                 return NotFound(result);
 
-            return Ok(result);
+
+            var projeDetay = _mapper.Map<ProjeDetay, ProjeDetayDto>(result.Data);
+
+            return Ok(projeDetay);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProjeDetay projeDetay)
+        public async Task<IActionResult> Create(ProjeDetayDto projeDetayDto)
         {
+            var projeDetay = _mapper.Map<ProjeDetayDto, ProjeDetay>(projeDetayDto); 
+
             var result = await _projeDetayService.AddAsync(projeDetay);
 
             if (!result.Success)
@@ -51,8 +65,10 @@ namespace PortfoyProje.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(ProjeDetay projeDetay)
+        public async Task<IActionResult> Update(ProjeDetayDto projeDetayDto)
         {
+            var projeDetay = _mapper.Map<ProjeDetayDto, ProjeDetay>(projeDetayDto);
+
             var result = await _projeDetayService.Update(projeDetay);
 
             if (!result.Success)

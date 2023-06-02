@@ -13,7 +13,6 @@ namespace Business.Utilities.ValidationRules.FluentValidation
         public ProjeDetayValidator()
         {
             RuleFor(pd => pd.Aciklama).NotNull();
-            RuleFor(pd => pd.Durum).NotNull();
             RuleFor(pd=> pd.ProjeId).NotNull();
         }
     }
