@@ -14,6 +14,7 @@ namespace Business.Concrete
 {
     public interface IProjeDetayService : IBaseService<ProjeDetay>
     {
+        Task<IDataResult<List<ProjeDetay>>> GetByProjectId(int id);
 
     }
     public class ProjeDetayManager : IProjeDetayService
@@ -74,6 +75,13 @@ namespace Business.Concrete
         public async Task<IDataResult<List<ProjeDetay>>> GetAll()
         {
             var result = await _projeDetayDal.GetAll();
+
+            return new DataResult<List<ProjeDetay>>(result.ToList(), true);
+        }
+
+        public async Task<IDataResult<List<ProjeDetay>>> GetByProjectId(int id)
+        {
+            var result = await _projeDetayDal.GetByProjectId(id);
 
             return new DataResult<List<ProjeDetay>>(result.ToList(), true);
         }

@@ -12,9 +12,12 @@
         public decimal ProjeButcesi { get; set; }
         public int ProjeKategoriId { get; set; }
         public int DepartmanId { get; set; }
+        public int IsciSayisi { get; set; }
+        public int KaynakYuzdesi { get; set; }
         public int Strateji { get; set; }
         public decimal ProjeGeliri { get; set; }
         public decimal ProjeGideri { get; set; }
+        
     }
 }
 

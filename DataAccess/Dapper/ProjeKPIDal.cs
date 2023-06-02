@@ -5,7 +5,9 @@ using MySql.Data.MySqlClient;
 namespace DataAccess.Dapper
 {
     public interface IProjeKPIDal : IBaseRepository<ProjeKPI>
-    { }
+    {
+        Task<IEnumerable<ProjeKPI>> GetByProjectId(int projeId);
+    }
     public class ProjeKPIDal : IProjeKPIDal
     {
         public async Task<int> Add(ProjeKPI entity)
@@ -43,6 +45,16 @@ namespace DataAccess.Dapper
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
                 var result = await con.QueryAsync<ProjeKPI>("SELECT * FROM ProjeKPIs ");
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ProjeKPI>> GetByProjectId(int projeId)
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.QueryAsync<ProjeKPI>("SELECT * FROM ProjeKPIs WHERE ProjeId = @ProjeId", new { ProjeId = projeId });
 
                 return result;
             }

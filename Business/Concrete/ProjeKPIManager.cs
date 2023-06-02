@@ -7,7 +7,10 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-    public interface IProjeKPIService : IBaseService<ProjeKPI> { }
+    public interface IProjeKPIService : IBaseService<ProjeKPI>
+    {
+        Task<IDataResult<List<ProjeKPI>>> GetByProjectId(int id);
+    }
     public class ProjeKPIManager : IProjeKPIService
     {
         private readonly IProjeKPIDal _projeKPIDal;
@@ -23,7 +26,7 @@ namespace Business.Concrete
         {
             if (entity != null)
             {
-              
+
                 var isTrue = await _projeDal.Get(entity.ProjeId);
 
 
@@ -66,6 +69,13 @@ namespace Business.Concrete
         public async Task<IDataResult<List<ProjeKPI>>> GetAll()
         {
             var result = await _projeKPIDal.GetAll();
+
+            return new DataResult<List<ProjeKPI>>(result.ToList(), true);
+        }
+
+        public async Task<IDataResult<List<ProjeKPI>>> GetByProjectId(int id)
+        {
+            var result = await _projeKPIDal.GetByProjectId(id);
 
             return new DataResult<List<ProjeKPI>>(result.ToList(), true);
         }

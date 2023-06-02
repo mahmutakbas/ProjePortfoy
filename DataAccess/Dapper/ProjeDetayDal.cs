@@ -6,6 +6,7 @@ namespace DataAccess.Dapper
 {
     public interface IProjeDetayDal : IBaseRepository<ProjeDetay>
     {
+        Task<IEnumerable<ProjeDetay>> GetByProjectId(int id);
     }
     public class ProjeDetayDal : IProjeDetayDal
     {
@@ -41,6 +42,16 @@ namespace DataAccess.Dapper
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
                 var result = await con.QueryAsync<ProjeDetay>("SELECT * FROM ProjeDetays");
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ProjeDetay>> GetByProjectId(int id)
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.QueryAsync<ProjeDetay>("SELECT * FROM ProjeDetays WHERE ProjeId = @ProjeId", new { ProjeId = id });
+
                 return result;
             }
         }

@@ -7,7 +7,7 @@ namespace DataAccess.Dapper
     public interface IKPIDal : IBaseRepository<KPI>
     {
         Task<bool> IsExist(KPI entity);
-
+       
     }
     public class KPIDal : IKPIDal
     {
@@ -46,6 +46,8 @@ namespace DataAccess.Dapper
                 return result;
             }
         }
+
+    
 
         public async Task<bool> IsExist(KPI entity)
         {

@@ -14,7 +14,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("INSERT INTO Projes (ProjeAdi, BaslangicTarihi, BitisTarihi, ProjeAciklama, ProjeDurum, ProjeMusteri, ProjeButcesi,                    ProjeKategoriId, DepartmanId, Strateji, ProjeGeliri, ProjeGideri) VALUES (@ProjeAdi, @BaslangicTarihi, @BitisTarihi, @ProjeAciklama, @ProjeDurum, @ProjeMusteri, @ProjeButcesi,@ProjeKategoriId, @DepartmanId, @Strateji, @ProjeGeliri, @ProjeGideri);", new
+                var result = await con.ExecuteAsync("INSERT INTO Projes (ProjeAdi, BaslangicTarihi, BitisTarihi, ProjeAciklama, ProjeDurum, ProjeMusteri, ProjeButcesi,                    ProjeKategoriId, DepartmanId, Strateji, ProjeGeliri, ProjeGideri,KaynakYuzdesi,IsciSayisi) VALUES (@ProjeAdi, @BaslangicTarihi, @BitisTarihi, @ProjeAciklama, @ProjeDurum, @ProjeMusteri, @ProjeButcesi,@ProjeKategoriId, @DepartmanId, @Strateji, @ProjeGeliri, @ProjeGideri,@KaynakYuzdesi,@IsciSayisi);", new
                 {
                     ProjeAdi = entity.ProjeAdi,
                     BaslangicTarihi = entity.BaslangicTarihi,
@@ -27,8 +27,12 @@ namespace DataAccess.Dapper
                     DepartmanId = entity.DepartmanId,
                     Strateji = entity.Strateji,
                     ProjeGeliri = entity.ProjeGeliri,
-                    ProjeGideri = entity.ProjeGideri
+                    ProjeGideri = entity.ProjeGideri,
+                    KaynakYuzdesi = entity.KaynakYuzdesi,
+                    IsciSayisi = entity.IsciSayisi
                 });
+
+
                 return result;
             }
         }
@@ -74,7 +78,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("UPDATE Projes SET ProjeAdi = @ProjeAdi, BaslangicTarihi=@BaslangicTarihi, BitisTarihi=@BitisTarihi, ProjeAciklama=@ProjeAciklama, ProjeDurum=@ProjeDurum, ProjeMusteri=@ProjeMusteri, ProjeButcesi=@ProjeButcesi,                    ProjeKategoriId=@ProjeKategoriId, DepartmanId=@DepartmanId, Strateji=@Strateji, ProjeGeliri=@ProjeGeliri, ProjeGideri=@ProjeGideri WHERE ID =@Id", new
+                var result = await con.ExecuteAsync("UPDATE Projes SET ProjeAdi = @ProjeAdi, BaslangicTarihi=@BaslangicTarihi, BitisTarihi=@BitisTarihi, ProjeAciklama=@ProjeAciklama, ProjeDurum=@ProjeDurum, ProjeMusteri=@ProjeMusteri, ProjeButcesi=@ProjeButcesi,                    ProjeKategoriId=@ProjeKategoriId, DepartmanId=@DepartmanId, Strateji=@Strateji, ProjeGeliri=@ProjeGeliri, ProjeGideri=@ProjeGideri,KaynakYuzdesi,IsciSayisi WHERE ID =@Id", new
                 {
                     Id = entity.Id,
                     ProjeAdi = entity.ProjeAdi,

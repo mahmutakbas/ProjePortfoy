@@ -7,7 +7,6 @@ namespace DataAccess.Dapper
 
     public interface IProjeKategoriDal : IBaseRepository<ProjeKategori>
     {
-
         Task<bool> IsExist(ProjeKategori entity);
     }
     public class ProjeKategoriDal : IProjeKategoriDal

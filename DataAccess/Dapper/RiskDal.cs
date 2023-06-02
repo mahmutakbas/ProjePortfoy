@@ -57,7 +57,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<Risk>("SELECT * FROM Risks  WHERE ID = @Id " , new { Id = projectId });
+                var result = await con.QueryAsync<Risk>("SELECT * FROM Risks  WHERE ProjeId = @ProjeId ", new { ProjeId = projectId });
 
                 return result;
             }

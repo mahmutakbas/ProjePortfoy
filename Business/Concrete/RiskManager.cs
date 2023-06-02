@@ -14,7 +14,7 @@ namespace Business.Concrete
 {
     public interface IRiskService : IBaseService<Risk>
     {
-
+        Task<IDataResult<List<Risk>>> GetByProjectId(int id);
     }
     public class RiskManager : IRiskService
     {
@@ -74,6 +74,13 @@ namespace Business.Concrete
         public async Task<IDataResult<List<Risk>>> GetAll()
         {
             var result = await _riskDal.GetAll();
+
+            return new DataResult<List<Risk>>(result.ToList(), true);
+        }
+
+        public async Task<IDataResult<List<Risk>>> GetByProjectId(int id)
+        {
+            var result = await _riskDal.GetRiskByProjectId(id);
 
             return new DataResult<List<Risk>>(result.ToList(), true);
         }

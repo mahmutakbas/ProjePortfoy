@@ -27,6 +27,8 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.Revenue, opt => opt.MapFrom(x => x.ProjeGeliri))
                 .ForMember(d => d.Description, opt => opt.MapFrom(x => x.ProjeAciklama))
                 .ForMember(d => d.Customer, opt => opt.MapFrom(x => x.ProjeMusteri))
+                .ForMember(d => d.manCount, opt => opt.MapFrom(x => x.IsciSayisi))
+                .ForMember(d => d.ResourcePercent, opt => opt.MapFrom(x => x.KaynakYuzdesi))
                 .ForMember(d => d.DepartmentId, opt => opt.MapFrom(x => x.DepartmanId));
 
             CreateMap<ProjectDto, Proje>()
@@ -40,6 +42,8 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.ProjeGeliri, opt => opt.MapFrom(x => x.Revenue))
                 .ForMember(d => d.ProjeAciklama, opt => opt.MapFrom(x => x.Description))
                 .ForMember(d => d.ProjeMusteri, opt => opt.MapFrom(x => x.Customer))
+                .ForMember(d => d.IsciSayisi, opt => opt.MapFrom(x => x.manCount))
+                .ForMember(d => d.KaynakYuzdesi, opt => opt.MapFrom(x => x.ResourcePercent))
                 .ForMember(d => d.DepartmanId, opt => opt.MapFrom(x => x.DepartmentId));
 
             CreateMap<KPI, KPIDto>()
@@ -65,7 +69,7 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.Aciklama, opt => opt.MapFrom(x => x.Name))
                 .ForMember(d => d.BaslangicTarihi, opt => opt.MapFrom(x => x.StartDate))
                 .ForMember(d => d.BitisTarihi, opt => opt.MapFrom(x => x.FinishDate));
-               
+
 
             CreateMap<Risk, RiskDto>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
@@ -84,7 +88,7 @@ namespace PortfoyAPI.Models
                 .ForMember(d => d.Item, opt => opt.MapFrom(x => x.KaynakMiktari));
 
 
-            CreateMap<KaynakDto,Kaynak >()
+            CreateMap<KaynakDto, Kaynak>()
              .ForMember(d => d.Id, opt => opt.MapFrom(x => x.Id))
             .ForMember(d => d.DepartmanId, opt => opt.MapFrom(x => x.DepartmentId))
             .ForMember(d => d.KaynakAdi, opt => opt.MapFrom(x => x.Name))

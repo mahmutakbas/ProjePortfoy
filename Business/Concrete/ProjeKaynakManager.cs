@@ -10,11 +10,10 @@ namespace Business.Concrete
 
     public interface IProjeKaynakService : IBaseService<ProjeKaynak>
     {
-
+        Task<IDataResult<List<ProjeKaynak>>> GetByProjectId(int id);
     }
     public class ProjeKaynakManager : IProjeKaynakService
     {
-
         private readonly IProjeKaynakDal _projeKaynakDal;
         private readonly IKaynakDal _kaynakDal;
 
@@ -28,11 +27,36 @@ namespace Business.Concrete
         {
             if (entity != null)
             {
-                entity.Id = 0;
                 var isExist = await _projeKaynakDal.IsExist(entity);
 
                 if (isExist)
                     return new DataResult<int>(0, false, "Kaynak mevcut. Yeniden ekleyemezsiniz!");
+
+                var currentKaynak = await _projeKaynakDal.Get(entity.Id);
+
+                if (currentKaynak == null)
+                    return new DataResult<int>(0, false, "Kaynak bulunamadı.");
+
+                var getKaynak = await _kaynakDal.Get(entity.KaynakId);
+
+                if (entity.KaynakMiktari > currentKaynak.KaynakMiktari)
+                {
+                    if (getKaynak.KaynakMiktari < entity.KaynakMiktari - currentKaynak.KaynakMiktari)
+                    {
+                        return new DataResult<int>(0, false, "Yeterli kaynak bulunmamaktadır.");
+                    }
+                    else
+                    {
+                        getKaynak.KaynakMiktari = (getKaynak.KaynakMiktari + currentKaynak.KaynakMiktari) - entity.KaynakMiktari;
+                    }
+                }
+                else
+                {
+                    getKaynak.KaynakMiktari += currentKaynak.KaynakMiktari - entity.KaynakMiktari;
+                }
+
+                entity.Id = 0;
+               
 
                 var result = await _projeKaynakDal.Add(entity);
 
@@ -72,6 +96,13 @@ namespace Business.Concrete
         public async Task<IDataResult<List<ProjeKaynak>>> GetAll()
         {
             var result = await _projeKaynakDal.GetAll();
+
+            return new DataResult<List<ProjeKaynak>>(result.ToList(), true);
+        }
+
+        public async Task<IDataResult<List<ProjeKaynak>>> GetByProjectId(int id)
+        {
+            var result = await _projeKaynakDal.GetByProjectId(id);
 
             return new DataResult<List<ProjeKaynak>>(result.ToList(), true);
         }
@@ -121,5 +152,4 @@ namespace Business.Concrete
             }
         }
     }
-
 }
