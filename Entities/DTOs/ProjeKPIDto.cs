@@ -9,6 +9,5 @@ namespace Entities.DTOs
     public class ProjeKPIDto
     {
         public int KPIAdi { get; set; }
-        public int MyProperty2 { get; set; }
     }
 }

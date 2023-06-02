@@ -32,28 +32,7 @@ namespace Business.Concrete
                 if (isExist)
                     return new DataResult<int>(0, false, "Kaynak mevcut. Yeniden ekleyemezsiniz!");
 
-                var currentKaynak = await _projeKaynakDal.Get(entity.Id);
-
-                if (currentKaynak == null)
-                    return new DataResult<int>(0, false, "Kaynak bulunamadı.");
-
                 var getKaynak = await _kaynakDal.Get(entity.KaynakId);
-
-                if (entity.KaynakMiktari > currentKaynak.KaynakMiktari)
-                {
-                    if (getKaynak.KaynakMiktari < entity.KaynakMiktari - currentKaynak.KaynakMiktari)
-                    {
-                        return new DataResult<int>(0, false, "Yeterli kaynak bulunmamaktadır.");
-                    }
-                    else
-                    {
-                        getKaynak.KaynakMiktari = (getKaynak.KaynakMiktari + currentKaynak.KaynakMiktari) - entity.KaynakMiktari;
-                    }
-                }
-                else
-                {
-                    getKaynak.KaynakMiktari += currentKaynak.KaynakMiktari - entity.KaynakMiktari;
-                }
 
                 entity.Id = 0;
                
