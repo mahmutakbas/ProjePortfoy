@@ -9,13 +9,13 @@ namespace MLDataAccess
     public interface ISelectPortfoy
     {
         Task<List<ProjectPrediction>> MLPrediction(IEnumerable<ProjectGetData> itemList);
-        Task<List<ProjectPrediction>> MLPredictionTest(IEnumerable<ProjectGetData> itemList);
+        Task<List<ProjectPrediction>> MLPredictionTest(List<ProjectGetData> itemList);
     }
 
     public class SelectPortfoy : ISelectPortfoy
     {
 
-        public Task<List<ProjectPrediction>> MLPredictionTest(IEnumerable<ProjectGetData> itemList)
+        public Task<List<ProjectPrediction>> MLPredictionTest(List<ProjectGetData> itemList)
         {
             var context = new MLContext();
 
@@ -31,6 +31,7 @@ namespace MLDataAccess
                     DateTime bitisTarihi = item.FinishDate;
                     float fark = (float)Math.Round(bitisTarihi.Subtract(baslangicTarihi).TotalDays / 360);
 
+                    project.Id = item.Id;
                     project.ProjeIsmi = "aa";
                     project.Sure = fark;
 
@@ -49,8 +50,6 @@ namespace MLDataAccess
                     projects.Add(project);
                 }
 
-
-
                 using (var stream = new FileStream("model.zip", FileMode.Open))
                 {
                     // Modeli yükleme
@@ -66,14 +65,13 @@ namespace MLDataAccess
                     {
                         predict.Add(predictionEngine.Predict(inputData));
                     }
-
-                    return Task.FromResult(predict.OrderByDescending(p => p.Sonuc).ToList());
-
+                    //bütçe, süre, kaynak, işçi
+                    return Task.FromResult(predict.OrderByDescending(p => p.Sonuc).ThenByDescending(p => p.Butce).ThenBy(p => p.KaynakKullanim).ToList());
                 }
             }
 
             return null;
-         
+
         }
 
 
@@ -317,19 +315,18 @@ namespace MLDataAccess
 
     public class ProjectGetData
     {
-        [LoadColumn(0)] public float Id { get; set; }
-        [LoadColumn(1)] public string? ProjeIsmi;
-        [LoadColumn(3)] public float Budget;
-        [LoadColumn(4)] public float Revenue;
-        [LoadColumn(5)] public float ManCount;
-        [LoadColumn(6)] public float ResourcPercent;
-        [LoadColumn(7)] public DateTime StartDate;
-        [LoadColumn(8)] public DateTime FinishDate;
-        [LoadColumn(9)] public string? Risk1;
-        [LoadColumn(10)] public string? Risk2;
-        [LoadColumn(11)] public string? Risk3;
-        [LoadColumn(12)] public string? Risk4;
-        [LoadColumn(12)] public string? Risk5;
+        public int Id { get; set; }
+        public int Budget { get; set; }
+        public int Revenue { get; set; }
+        public int ManCount { get; set; }
+        public int ResourcPercent { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime FinishDate { get; set; }
+        public string? Risk1 { get; set; }
+        public string? Risk2 { get; set; }
+        public string? Risk3 { get; set; }
+        public string? Risk4 { get; set; }
+        public string? Risk5 { get; set; }
     }
     public class ProjectData
     {
