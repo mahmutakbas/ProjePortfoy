@@ -103,9 +103,7 @@ namespace WebPortfoy.Controllers
             if (result.Data.Count == 0)
                 return Ok(null);
 
-            var resultDto = _mapper.Map<List<ProjeKPI>, List<ProjeKPIDto>>(result.Data);
-
-            return Ok(resultDto);
+            return Ok(result.Data);
         }
         [HttpGet("getsource/{id}")]
         public async Task<IActionResult> GetSourceByProjectId(int id)
