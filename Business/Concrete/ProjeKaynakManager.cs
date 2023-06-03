@@ -1,15 +1,18 @@
 ﻿using Business.Abstract;
 using Business.Utilities.Result;
-using Business.Utilities.ValidationRules;
-using Business.Utilities.ValidationRules.FluentValidation;
 using DataAccess.Dapper;
 using Entities.Concrete;
 
 namespace Business.Concrete
 {
 
-    public interface IProjeKaynakService : IBaseService<ProjeKaynak>
+    public interface IProjeKaynakService 
     {
+        Task<IDataResult<object>> AddAsync(ProjeKaynak entity);
+        Task<IDataResult<object>> Update(ProjeKaynak entity);
+        Task<IResult> Delete(int id);
+        Task<IDataResult<ProjeKaynak>> Get(int id);
+        Task<IDataResult<List<ProjeKaynak>>> GetAll();
         Task<IDataResult<List<ProjeKaynak>>> GetByProjectId(int id);
     }
     public class ProjeKaynakManager : IProjeKaynakService
@@ -23,32 +26,48 @@ namespace Business.Concrete
             _kaynakDal = kaynakDal;
         }
 
-        public async Task<IDataResult<int>> AddAsync(ProjeKaynak entity)
+        public async Task<IDataResult<object>> AddAsync(ProjeKaynak entity)
         {
             if (entity != null)
             {
-                var isExist = await _projeKaynakDal.IsExist(entity);
+                var exist = await _projeKaynakDal.IsExist(entity);
+                if (!exist)
+                    return new DataResult<object>(null, false, "Bu kaynak daha önceden seçmiş olduğunuz projeye eklendi.");
 
-                if (isExist)
-                    return new DataResult<int>(0, false, "Kaynak mevcut. Yeniden ekleyemezsiniz!");
 
                 var getKaynak = await _kaynakDal.Get(entity.KaynakId);
 
-                entity.Id = 0;
-               
+                if (getKaynak.KaynakMiktari < entity.KaynakMiktari)
+                {
 
+                    var getFinishTime = await _projeKaynakDal.GetFinishTimeProject(entity);
+                    if (getFinishTime == null)
+                    {
+                        return new DataResult<object>(null, false, "Yeterli kaynak bulunamadı.");
+                    }
+                    else
+                    {
+                        return new DataResult<object>(getFinishTime, false, "Yeterli kaynak bulunamadı.");
+                    }
+                }
+
+                getKaynak.KaynakMiktari -= entity.KaynakMiktari;
+
+                await _kaynakDal.Update(getKaynak);
+
+                entity.Id = 0;
                 var result = await _projeKaynakDal.Add(entity);
 
                 if (result < 1)
                 {
-                    return new DataResult<int>(0, false, "Kayıt Yapılamadı");
+                    return new DataResult<object>(0, false, "Kayıt Yapılamadı");
                 }
 
-                return new DataResult<int>(result, true, "Success");
+                return new DataResult<object>(result, true, "Success");
             }
             else
             {
-                return new DataResult<int>(0, false, "Entity is Null");
+                return new DataResult<object>(0, false, "Entity is Null");
             }
         }
 
@@ -86,14 +105,14 @@ namespace Business.Concrete
             return new DataResult<List<ProjeKaynak>>(result.ToList(), true);
         }
 
-        public async Task<IResult> Update(ProjeKaynak entity)
+        public async Task<IDataResult<object>> Update(ProjeKaynak entity)
         {
             if (entity != null)
             {
                 var currentKaynak = await _projeKaynakDal.Get(entity.Id);
 
                 if (currentKaynak == null)
-                    return new DataResult<int>(0, false, "Kaynak bulunamadı.");
+                    return new DataResult<object>(0, false, "Kaynak bulunamadı.");
 
                 var getKaynak = await _kaynakDal.Get(entity.KaynakId);
 
@@ -101,13 +120,20 @@ namespace Business.Concrete
                 {
                     if (getKaynak.KaynakMiktari < entity.KaynakMiktari - currentKaynak.KaynakMiktari)
                     {
-                        return new DataResult<int>(0, false, "Yeterli kaynak bulunmamaktadır.");
+                        var getFinishTime = await _projeKaynakDal.GetFinishTimeProject(entity);
+                        if (getFinishTime != null)
+                        {
+                            return new DataResult<object>(null, false, "Yeterli kaynak bulunamadı.");
+                        }
+                        else
+                        {
+                            return new DataResult<object>(getFinishTime, false, "Yeterli kaynak bulunamadı.");
+                        }
                     }
                     else
                     {
                         getKaynak.KaynakMiktari = (getKaynak.KaynakMiktari + currentKaynak.KaynakMiktari) - entity.KaynakMiktari;
                     }
-
                 }
                 else
                 {
@@ -120,14 +146,14 @@ namespace Business.Concrete
 
                 if (result < 1)
                 {
-                    return new DataResult<int>(0, false, "Error");
+                    return new DataResult<object>(0, false, "Error");
                 }
 
-                return new DataResult<int>(result, true, "Success");
+                return new DataResult<object>(result, true, "Success");
             }
             else
             {
-                return new DataResult<int>(0, false, "Entity is Null");
+                return new DataResult<object>(0, false, "Entity is Null");
             }
         }
     }

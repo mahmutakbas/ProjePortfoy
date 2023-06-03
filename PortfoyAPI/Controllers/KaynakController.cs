@@ -56,7 +56,7 @@ namespace PortfoyProje.Controllers
             var result = await _kaynakService.AddAsync(kaynkaDto);
 
             if (!result.Success)
-                return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
+                return BadRequest(new { isSuccess = false, Message = result.Message });
 
             return Ok(new { isSuccess = true, Message = "Kayıt Başarılı" });
         }

@@ -55,7 +55,7 @@ namespace PortfoyProje.Controllers
             var result = await _kPIService.AddAsync(kPIDto);
 
             if (!result.Success)
-                return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
+                return BadRequest(new { isSuccess = false, Message = result.Message });
             return Ok(new { isSuccess = true, Message = "Kayıt Başarılı" });
         }
 

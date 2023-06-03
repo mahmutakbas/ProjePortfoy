@@ -8,6 +8,8 @@ namespace DataAccess.Dapper
     {
         Task<bool> IsExist(ProjeKaynak entity);
         Task<IEnumerable<ProjeKaynak>> GetByProjectId(int projeId);
+
+        Task<object> GetFinishTimeProject(ProjeKaynak kaynak);
     }
     public class ProjeKaynakDto : IProjeKaynakDal
     {
@@ -60,11 +62,26 @@ namespace DataAccess.Dapper
             }
         }
 
+        public async Task<object> GetFinishTimeProject(ProjeKaynak kaynak)
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.QueryFirstOrDefaultAsync<object>(@"SELECT p.ProjeAdi AS ProjeAdi, p.BitisTarihi AS ProjeBitisTarihi
+                                                                    FROM ProjeKaynak pk
+                                                                             INNER JOIN Projes p ON pk.ProjeId = p.Id
+                                                                    WHERE pk.KaynakId = @KaynakId
+                                                                    GROUP BY p.ProjeAdi, p.BitisTarihi
+                                                                    HAVING SUM(pk.KaynakMiktari) >= @Istenilenkaynak
+                                                                       AND p.BitisTarihi < (SELECT BaslangicTarihi FROM Projes WHERE Id = @ProjeId) ORDER BY p.BitisTarihi ASC LIMIT 1;", new { ProjeId = kaynak.ProjeId, KaynakId = kaynak.KaynakId, Istenilenkaynak = kaynak.KaynakMiktari });
+                return result;
+            }
+        }
+
         public async Task<bool> IsExist(ProjeKaynak entity)
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryFirstOrDefaultAsync<Kaynak>("SELECT * FROM ProjeKaynak WHERE KaynakId=@KaynakId AND ID <> @Id", new { KaynakId = entity.KaynakId, Id = entity.Id });
+                var result = await con.QueryFirstOrDefaultAsync<Kaynak>("SELECT * FROM ProjeKaynak WHERE KaynakId=@KaynakId  && ProjeId=@ProjeId AND ID <> @Id", new { KaynakId = entity.KaynakId, ProjeId = entity.ProjeId, Id = entity.Id });
 
                 return result == null ? false : true;
             }
@@ -78,5 +95,7 @@ namespace DataAccess.Dapper
                 return result;
             }
         }
+
+
     }
 }

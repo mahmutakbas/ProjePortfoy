@@ -43,8 +43,8 @@ namespace PortfoyAPI.Controllers
             var result = await _projeKaynakService.AddAsync(kaynak);
 
             if (!result.Success)
-                return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
-            return Ok(new { isSuccess = true, Message = "Kayıt Başarılı" });
+                return BadRequest(new { isSuccess = false, Message = result.Message, Data = result.Data });
+            return Ok(new { isSuccess = true, Message = "Kayıt Başarılı"  });
         }
 
         [HttpPut]
@@ -53,7 +53,7 @@ namespace PortfoyAPI.Controllers
             var result = await _projeKaynakService.Update(kaynak);
 
             if (!result.Success)
-                return BadRequest(new { isSuccess = false, Message = result.Message });
+                return BadRequest(new { isSuccess = false, Message = result.Message, Data = result.Data});
             return Ok(new { isSuccess = true, Message = "Kayıt Başarıyla Güncellendi" });
         }
 
@@ -63,7 +63,7 @@ namespace PortfoyAPI.Controllers
             var result = await _projeKaynakService.Delete(id);
 
             if (!result.Success)
-                return BadRequest(new { isSuccess = false, Message = "Kayıt Silme Başarısız" });
+                return BadRequest(new { isSuccess = false, Message = "Kayıt Silme Başarısız"});
             return Ok(new { isSuccess = true, Message = "Kayıt Başarıyla Silindi" });
         }
     }

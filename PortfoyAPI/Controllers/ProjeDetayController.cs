@@ -60,7 +60,7 @@ namespace PortfoyProje.Controllers
             var result = await _projeDetayService.AddAsync(projeDetay);
 
             if (!result.Success)
-                return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
+                return BadRequest(new { isSuccess = false, Message = result.Message });
             return Ok(new { isSuccess = true, Message = "Kayıt Başarılı" });
         }
 

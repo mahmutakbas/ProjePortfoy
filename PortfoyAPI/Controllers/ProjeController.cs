@@ -67,6 +67,8 @@ namespace WebPortfoy.Controllers
             var resultRisk = await _riskService.GetByProjectId(id);
             var resultCategory = await _projeKategoriService.Get(result.Data.ProjeKategoriId);
 
+            var resultDepartment = await _departmanService.Get(result.Data.DepartmanId);    
+
             ProjeDDto proje = new ProjeDDto
             {
                 Id = result.Data.Id,
@@ -83,6 +85,8 @@ namespace WebPortfoy.Controllers
 
             proje.risks = _mapper.Map<List<Risk>, List<RiskDto>>(resultRisk.Data).ToArray();
             proje.Subtasks = _mapper.Map<List<ProjeDetay>, List<ProjeDetayDto>>(resultDetail.Data).ToArray();
+
+            proje.DepartmentId = (resultDepartment.Data);
 
             if (resultSource.Data.Count > 0)
             {

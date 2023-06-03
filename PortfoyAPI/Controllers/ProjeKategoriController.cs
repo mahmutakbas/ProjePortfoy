@@ -48,7 +48,7 @@ namespace PortfoyProje.Controllers
             var result = await _projeKategoriService.AddAsync(projeKategori);
 
             if (!result.Success)
-                return BadRequest(new { isSuccess = false, Message = "Kayıt Başarısız" });
+                return BadRequest(new { isSuccess = false, Message = result.Message });
             return Ok(new { isSuccess = true, Message = "Kayıt Başarılı" });
         }
 

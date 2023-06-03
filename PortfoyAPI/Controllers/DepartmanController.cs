@@ -30,6 +30,13 @@ namespace PortfoyProje.Controllers
 
             return Ok(resultDto);
         }
+        [HttpGet("getchart")]
+        public async Task<IActionResult> GetChart()
+        {
+            var result = await _departmanService.GetDepartmentChart();
+
+            return Ok(result);
+        }
 
         [HttpGet("getbyid/{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -50,7 +57,7 @@ namespace PortfoyProje.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(DepartmanDTO departman)
         {
-            var resultDto = _mapper.Map<DepartmanDTO,Departman>(departman);
+            var resultDto = _mapper.Map<DepartmanDTO, Departman>(departman);
 
             var result = await _departmanService.AddAsync(resultDto);
 

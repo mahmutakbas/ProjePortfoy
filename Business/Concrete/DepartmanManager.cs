@@ -4,12 +4,13 @@ using Business.Utilities.ValidationRules;
 using Business.Utilities.ValidationRules.FluentValidation;
 using DataAccess.Dapper;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
     public interface IDepartmanService : IBaseService<Departman>
     {
-
+        Task<IDataResult<List<DepartmanChartDto>>> GetDepartmentChart();
     }
     public class DepartmanManager : IDepartmanService
     {
@@ -78,6 +79,13 @@ namespace Business.Concrete
             return new DataResult<List<Departman>>(result.ToList(), true);
         }
 
+        public async Task<IDataResult<List<DepartmanChartDto>>> GetDepartmentChart()
+        {
+            var result =await  _departmentDal.GetDepartmentChart();
+
+            return new DataResult<List<DepartmanChartDto>>(result.ToList(), true);
+        }
+
         public async Task<IResult> Update(Departman entity)
         {
             if (entity != null)
@@ -113,5 +121,7 @@ namespace Business.Concrete
                 return new DataResult<int>(0, false, "Entity is Null");
             }
         }
+
+
     }
 }

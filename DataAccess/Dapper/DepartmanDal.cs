@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Entities.Concrete;
+using Entities.DTOs;
 using MySql.Data.MySqlClient;
 
 namespace DataAccess.Dapper
@@ -7,11 +8,8 @@ namespace DataAccess.Dapper
     public interface IDepartmentDal : IBaseRepository<Departman>
     {
         Task<bool> IsExist(Departman entity);
-      /*
-       Riskler çıkartılacak
-       Departmanlar tıkladığında o epratmana ait kaynak
-       Projenin { Riskler, Departmanlar, Kaynaklar}
-       */
+        Task<IEnumerable<DepartmanChartDto>> GetDepartmentChart();
+
     }
     public class DepartmanDal : IDepartmentDal
     {
@@ -51,6 +49,19 @@ namespace DataAccess.Dapper
             }
         }
 
+        public async Task<IEnumerable<DepartmanChartDto>> GetDepartmentChart()
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.QueryAsync<DepartmanChartDto>(@"SELECT d.DepartmanAdi AS DepartmantName,k.KaynakMiktari AS TotalResource,sum(PK.KaynakMiktari) AS TotalUseResource
+                                                                        FROM Departmans d
+                                                                                    INNER JOIN Kaynaks k ON d.Id = k.DepartmanId
+                                                                                    INNER JOIN ProjeKaynak PK ON k.Id = PK.KaynakId
+                                                                        GROUP BY d.DepartmanAdi, k.KaynakMiktari;");
+                return result;
+            }
+        }
+
         public async Task<bool> IsExist(Departman entity)
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
@@ -65,7 +76,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("UPDATE Departmans SET DepartmanAdi = @DepartmanAdi WHERE Id=@Id;", new { DepartmanAdi = entity.DepartmanAdi, Id=entity.Id });
+                var result = await con.ExecuteAsync("UPDATE Departmans SET DepartmanAdi = @DepartmanAdi WHERE Id=@Id;", new { DepartmanAdi = entity.DepartmanAdi, Id = entity.Id });
                 return result;
             }
         }
