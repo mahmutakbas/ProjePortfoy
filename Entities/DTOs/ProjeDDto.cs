@@ -25,6 +25,6 @@ namespace Entities.DTOs
         public KPIDto[] Kpis { get; set; }
         public ProjeDetayDto[] Subtasks { get; set; }
         public RiskDto[] risks { get; set; }
-        public KaynakDto[] Resource { get; set; }
+        public KaynakDto[] Resources { get; set; }
     }
 }

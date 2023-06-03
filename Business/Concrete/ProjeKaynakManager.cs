@@ -31,7 +31,7 @@ namespace Business.Concrete
             if (entity != null)
             {
                 var exist = await _projeKaynakDal.IsExist(entity);
-                if (!exist)
+                if (exist)
                     return new DataResult<object>(null, false, "Bu kaynak daha önceden seçmiş olduğunuz projeye eklendi.");
 
 
