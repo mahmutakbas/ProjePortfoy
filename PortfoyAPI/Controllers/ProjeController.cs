@@ -88,42 +88,6 @@ namespace WebPortfoy.Controllers
 
             proje.DepartmentId = (resultDepartment.Data);
 
-            if (resultSource.Data.Count > 0)
-            {
-                proje.Resource = new KaynakDto[resultSource.Data.Count];
-
-                var data = resultSource.Data;
-                for (int i = 0; i < data.Count; i++)
-                {
-                    var kaynak = await _kaynakService.Get(data[i].KaynakId);
-                    KaynakDto kaynakDto = new KaynakDto();
-                    kaynakDto.Name = kaynak.Data.KaynakAdi;
-                    kaynakDto.Id = data[i].KaynakId;
-                    kaynakDto.DepartmentId = kaynak.Data.DepartmanId;
-                    kaynakDto.Item = data[i].KaynakMiktari;
-                    kaynakDto.DepartmentName = (await _departmanService.Get(kaynak.Data.DepartmanId))?.Data?.DepartmanAdi;
-
-                    proje.Resource[i] = kaynakDto;
-                }
-            }
-
-            if (resultKpi.Data.Count > 0)
-            {
-                proje.Kpis = new KPIDto[resultKpi.Data.Count];
-
-                var data = resultKpi.Data;
-                for (int i = 0; i < data.Count; i++)
-                {
-                    KPIDto kPI =new KPIDto();
-
-                    var kpi = await _projeKPIService.Get(data[i].Id);
-                    kPI.Id = data[i].Id;
-                    kPI.Name = data[i].Name;
-                    kPI.Goal = kpi.Data.Goal;
-                    proje.Kpis[i] = kPI;
-                }
-            }
-
             if (resultCategory.Data != null)
             {
                 var data = resultCategory.Data;
@@ -167,9 +131,7 @@ namespace WebPortfoy.Controllers
             if (result.Data.Count == 0)
                 return Ok(null);
 
-            var resultDto = _mapper.Map<List<ProjeKaynak>, List<ProjeKaynakDto>>(result.Data);
-
-            return Ok(resultDto);
+            return Ok(result.Data);
         }
         [HttpGet("getrisk/{id}")]
         public async Task<IActionResult> GetRiskByProjectId(int id)

@@ -29,8 +29,6 @@ namespace Business.Concrete
 
                 var isTrue = await _projeDal.Get(entity.ProjeId);
 
-
-
                 var result = await _projeKPIDal.Add(entity);
 
                 if (result < 1)
