@@ -59,14 +59,7 @@ namespace WebPortfoy.Controllers
             if (result.Data == null)
                 return NotFound(result);
 
-
-            var resultDetail = await _projeDetayService.GetByProjectId(id);
-
-            var resultSource = await _projeKaynakService.GetByProjectId(id);
-            var resultKpi = await _projeKPIService.GetByProjectId(id);
-            var resultRisk = await _riskService.GetByProjectId(id);
             var resultCategory = await _projeKategoriService.Get(result.Data.ProjeKategoriId);
-
             var resultDepartment = await _departmanService.Get(result.Data.DepartmanId);    
 
             ProjeDDto proje = new ProjeDDto
@@ -83,18 +76,9 @@ namespace WebPortfoy.Controllers
                 Status = result.Data.ProjeDurum
             };
 
-            proje.risks = _mapper.Map<List<Risk>, List<RiskDto>>(resultRisk.Data).ToArray();
-            proje.Subtasks = _mapper.Map<List<ProjeDetay>, List<ProjeDetayDto>>(resultDetail.Data).ToArray();
-
             proje.DepartmentId = (resultDepartment.Data);
 
-            if (resultCategory.Data != null)
-            {
-                var data = resultCategory.Data;
-                
-                proje.Type = (await _projeKategoriService.Get(data.Id))?.Data;
-            }
-
+            proje.Type = resultCategory.Data;
             return Ok(proje);
         }
 
