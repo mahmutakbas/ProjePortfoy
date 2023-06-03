@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Entities.Concrete;
+using Entities.DTOs;
 using MySql.Data.MySqlClient;
 
 namespace DataAccess.Dapper
@@ -7,6 +8,7 @@ namespace DataAccess.Dapper
     public interface IProjeDal : IBaseRepository<Proje>
     {
         Task<bool> IsExist(Proje entity);
+        Task<int> UpdateStatu(ProjeStatus entity);
     }
     public class ProjeDal : IProjeDal
     {
@@ -93,6 +95,19 @@ namespace DataAccess.Dapper
                     Strateji = entity.Strateji,
                     ProjeGeliri = entity.ProjeGeliri,
                     ProjeGideri = entity.ProjeGideri
+                });
+                return result;
+            }
+        }
+
+        public async Task<int> UpdateStatu(ProjeStatus entity)
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.ExecuteAsync("UPDATE Projes SET ProjeDurum=@ProjeDurum WHERE ID =@Id", new
+                {
+                    Id = entity.Id,
+                    ProjeDurum = entity.Status
                 });
                 return result;
             }

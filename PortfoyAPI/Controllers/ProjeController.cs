@@ -153,6 +153,17 @@ namespace WebPortfoy.Controllers
             return Ok(new { isSuccess = true, Message = "Kayıt Başarıyla Güncellendi" });
         }
 
+        [HttpPut("status")]
+        public async Task<IActionResult> UpdateStatus(ProjeStatus proje)
+        {
+           
+       var result = await _projeService.UpdateStatu(proje);
+
+            if (!result.Success)
+                return BadRequest(new { isSuccess = false, Message = result.Message });
+            return Ok(new { isSuccess = true, Message = "Kayıt Başarıyla Güncellendi" });
+        }
+
         [HttpDelete]
         public async Task<IActionResult> Delte(int id)
         {

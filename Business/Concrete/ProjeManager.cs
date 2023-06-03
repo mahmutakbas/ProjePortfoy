@@ -4,12 +4,13 @@ using Business.Utilities.ValidationRules;
 using Business.Utilities.ValidationRules.FluentValidation;
 using DataAccess.Dapper;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
     public interface IProjeService : IBaseService<Proje>
     {
-
+        Task<IResult> UpdateStatu(ProjeStatus entity);
     }
     public class ProjeManager : IProjeService
     {
@@ -101,6 +102,30 @@ namespace Business.Concrete
                     return new DataResult<int>(0, false, "Proje Adı mevcut. Proje adını değiştirin!");
 
                 var result = await _projeDal.Update(entity);
+
+                if (result < 1)
+                {
+                    return new DataResult<int>(0, false, "Error");
+                }
+
+                return new DataResult<int>(result, true, "Success");
+            }
+            else
+            {
+                return new DataResult<int>(0, false, "Entity is Null");
+            }
+        }
+
+        public async Task<IResult> UpdateStatu(ProjeStatus entity)
+        {
+            if (entity != null)
+            {
+
+                var isTrue = await _projeDal.Get(entity.Id);
+
+                if (isTrue == null)
+                    return new DataResult<int>(0, false, "Proje bulunamadı.");
+                var result = await _projeDal.UpdateStatu(entity);
 
                 if (result < 1)
                 {
