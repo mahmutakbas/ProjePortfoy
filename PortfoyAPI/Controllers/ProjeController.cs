@@ -60,7 +60,7 @@ namespace WebPortfoy.Controllers
                 return NotFound(result);
             
             var resultCategory = await _projeKategoriService.Get(result.Data.ProjeKategoriId);
-            var resultDepartment = await _departmanService.Get(result.Data.DepartmanId);    
+            var resultDepartment = await _departmanService.Get(result.Data.DepartmanId);
 
             ProjeDDto proje = new ProjeDDto
             {
@@ -71,6 +71,7 @@ namespace WebPortfoy.Controllers
                 Description = result.Data.ProjeAciklama,
                 FinishDate = result.Data.BitisTarihi,
                 manCount = result.Data.IsciSayisi,
+                Revenue = result.Data.ProjeGeliri,
                 ResourcePercent = result.Data.KaynakYuzdesi,
                 StartDate = result.Data.BaslangicTarihi,
                 Status = result.Data.ProjeDurum

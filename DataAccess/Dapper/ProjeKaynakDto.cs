@@ -7,7 +7,7 @@ namespace DataAccess.Dapper
     public interface IProjeKaynakDal : IBaseRepository<ProjeKaynak>
     {
         Task<bool> IsExist(ProjeKaynak entity);
-        Task<IEnumerable<ProjeKaynak>> GetByProjectId(int projeId);
+        Task<IEnumerable<object>> GetByProjectId(int projeId);
 
         Task<object> GetFinishTimeProject(ProjeKaynak kaynak);
     }
@@ -52,11 +52,11 @@ namespace DataAccess.Dapper
             }
         }
 
-        public async Task<IEnumerable<ProjeKaynak>> GetByProjectId(int projeId)
+        public async Task<IEnumerable<object>> GetByProjectId(int projeId)
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<ProjeKaynak>("SELECT * FROM ProjeKaynak WHERE ProjeId = @ProjeId"
+                var result = await con.QueryAsync<ProjeKaynak>("SELECT pk.id, pk.projeid, k.KaynakAdi, pk.kaynakmiktari FROM ProjeKaynak pk  INNER  JOIN Kaynaks k ON pk.KaynakId=k.Id WHERE ProjeId = @ProjeId"
                     , new { ProjeId = projeId });
                 return result;
             }

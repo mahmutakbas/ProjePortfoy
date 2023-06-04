@@ -13,7 +13,7 @@ namespace Business.Concrete
         Task<IResult> Delete(int id);
         Task<IDataResult<ProjeKaynak>> Get(int id);
         Task<IDataResult<List<ProjeKaynak>>> GetAll();
-        Task<IDataResult<List<ProjeKaynak>>> GetByProjectId(int id);
+        Task<IDataResult<List<object>>> GetByProjectId(int id);
     }
     public class ProjeKaynakManager : IProjeKaynakService
     {
@@ -98,11 +98,11 @@ namespace Business.Concrete
             return new DataResult<List<ProjeKaynak>>(result.ToList(), true);
         }
 
-        public async Task<IDataResult<List<ProjeKaynak>>> GetByProjectId(int id)
+        public async Task<IDataResult<List<object>>> GetByProjectId(int id)
         {
             var result = await _projeKaynakDal.GetByProjectId(id);
 
-            return new DataResult<List<ProjeKaynak>>(result.ToList(), true);
+            return new DataResult<List<object>>(result.ToList(), true);
         }
 
         public async Task<IDataResult<object>> Update(ProjeKaynak entity)
