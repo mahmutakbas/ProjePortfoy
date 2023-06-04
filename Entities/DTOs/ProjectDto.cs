@@ -11,7 +11,7 @@ namespace Entities.DTOs
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public int Type { get; set; }
+        public string? Type { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime FinishDate{ get; set; }
         public string? Status { get; set; }

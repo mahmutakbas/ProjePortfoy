@@ -41,11 +41,11 @@ namespace WebPortfoy.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _projeService.GetAll();
+            var result = await _projeService.GetAllDto();
 
-            var resultDto = _mapper.Map<List<Proje>, List<ProjectDto>>(result.Data);
+            
 
-            return Ok(resultDto);
+            return Ok(result.Data);
         }
 
         [HttpGet("getbyid/{id}")]
@@ -58,7 +58,7 @@ namespace WebPortfoy.Controllers
 
             if (result.Data == null)
                 return NotFound(result);
-
+            
             var resultCategory = await _projeKategoriService.Get(result.Data.ProjeKategoriId);
             var resultDepartment = await _departmanService.Get(result.Data.DepartmanId);    
 

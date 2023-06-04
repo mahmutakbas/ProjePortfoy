@@ -9,6 +9,7 @@ namespace DataAccess.Dapper
     {
         Task<bool> IsExist(Proje entity);
         Task<int> UpdateStatu(ProjeStatus entity);
+        Task<IEnumerable<ProjectDto>> GetAllDto();
     }
     public class ProjeDal : IProjeDal
     {
@@ -57,11 +58,30 @@ namespace DataAccess.Dapper
             }
         }
 
-        public async Task<IEnumerable<Proje>> GetAll()
+        public Task<IEnumerable<Proje>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ProjectDto>> GetAllDto()
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<Proje>("SELECT * FROM Projes");
+                var result = await con.QueryAsync<ProjectDto>(@"SELECT p.id                AS Id,
+                                                                  p.ProjeAdi          AS Name,
+                                                                  pk.ProjeKategoriAdi AS Type,
+                                                                  p.BaslangicTarihi   AS StartDate,
+                                                                  p.BitisTarihi       AS FinishDate,
+                                                                  p.ProjeDurum        AS Status,
+                                                                  p.ProjeButcesi      AS Budget,
+                                                                  p.ProjeGeliri       AS Revenue,
+                                                                  p.ProjeAciklama     AS Description,
+                                                                  p.ProjeMusteri      AS Customer,
+                                                                  p.DepartmanId       AS DepartmentId,
+                                                                  p.IsciSayisi        AS manCount,
+                                                                  p.KaynakYuzdesi     AS ResourcePercent
+                                                          FROM Projes p
+                                                                    INNER JOIN ProjeKategoris pk ON p.ProjeKategoriId = pk.Id");
                 return result;
             }
         }
