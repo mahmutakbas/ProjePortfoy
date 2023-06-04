@@ -56,7 +56,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<ProjeKaynak>("SELECT pk.id, pk.projeid, k.KaynakAdi, pk.kaynakmiktari FROM ProjeKaynak pk  INNER  JOIN Kaynaks k ON pk.KaynakId=k.Id WHERE ProjeId = @ProjeId"
+                var result = await con.QueryAsync<object>("SELECT pk.id, pk.projeid, k.KaynakAdi, pk.kaynakmiktari FROM ProjeKaynak pk  INNER  JOIN Kaynaks k ON pk.KaynakId=k.Id WHERE ProjeId = @ProjeId"
                     , new { ProjeId = projeId });
                 return result;
             }
