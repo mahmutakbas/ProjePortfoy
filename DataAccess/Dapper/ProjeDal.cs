@@ -9,7 +9,7 @@ namespace DataAccess.Dapper
     {
         Task<bool> IsExist(Proje entity);
         Task<int> UpdateStatu(ProjeStatus entity);
-        Task<IEnumerable<ProjectDto>> GetAllDto();
+        Task<IEnumerable<object>> GetAllDto();
     }
     public class ProjeDal : IProjeDal
     {
@@ -63,11 +63,11 @@ namespace DataAccess.Dapper
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ProjectDto>> GetAllDto()
+        public async Task<IEnumerable<object>> GetAllDto()
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<ProjectDto>(@"SELECT p.id                AS Id,
+                var result = await con.QueryAsync<object>(@"SELECT p.id                AS Id,
                                                                   p.ProjeAdi          AS Name,
                                                                   pk.ProjeKategoriAdi AS Type,
                                                                   p.BaslangicTarihi   AS StartDate,

@@ -11,7 +11,7 @@ namespace Business.Concrete
     public interface IProjeService : IBaseService<Proje>
     {
         Task<IResult> UpdateStatu(ProjeStatus entity);
-        Task<IDataResult<List<ProjectDto>>> GetAllDto();
+        Task<IDataResult<List<object>>> GetAllDto();
     }
     public class ProjeManager : IProjeService
     {
@@ -79,11 +79,11 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public async Task<IDataResult<List<ProjectDto>>> GetAllDto()
+        public async Task<IDataResult<List<object>>> GetAllDto()
         {
             var result = await _projeDal.GetAllDto();
 
-            return new DataResult<List<ProjectDto>>(result.ToList(), true);
+            return new DataResult<List<object>>(result.ToList(), true);
         }
 
         public async Task<IResult> Update(Proje entity)
