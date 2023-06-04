@@ -67,19 +67,19 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<object>(@"SELECT p.id                AS Id,
-                                                                  p.ProjeAdi          AS Name,
-                                                                  pk.ProjeKategoriAdi AS Type,
-                                                                  p.BaslangicTarihi   AS StartDate,
-                                                                  p.BitisTarihi       AS FinishDate,
-                                                                  p.ProjeDurum        AS Status,
-                                                                  p.ProjeButcesi      AS Budget,
-                                                                  p.ProjeGeliri       AS Revenue,
-                                                                  p.ProjeAciklama     AS Description,
-                                                                  p.ProjeMusteri      AS Customer,
-                                                                  p.DepartmanId       AS DepartmentId,
+                var result = await con.QueryAsync<object>(@"SELECT p.id                AS id,
+                                                                  p.ProjeAdi          AS name,
+                                                                  pk.ProjeKategoriAdi AS type,
+                                                                  p.BaslangicTarihi   AS startDate,
+                                                                  p.BitisTarihi       AS finishDate,
+                                                                  p.ProjeDurum        AS status,
+                                                                  p.ProjeButcesi      AS budget,
+                                                                  p.ProjeGeliri       AS revenue,
+                                                                  p.ProjeAciklama     AS description,
+                                                                  p.ProjeMusteri      AS customer,
+                                                                  p.DepartmanId       AS departmentId,
                                                                   p.IsciSayisi        AS manCount,
-                                                                  p.KaynakYuzdesi     AS ResourcePercent
+                                                                  p.KaynakYuzdesi     AS resourcePercent
                                                           FROM Projes p
                                                                     INNER JOIN ProjeKategoris pk ON p.ProjeKategoriId = pk.Id");
                 return result;
