@@ -53,11 +53,11 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<DepartmanChartDto>(@"SELECT d.DepartmanAdi AS DepartmantName,k.KaynakMiktari AS TotalResource,sum(PK.KaynakMiktari) AS TotalUseResource, k.KaynakAdi AS ResourceName
+                var result = await con.QueryAsync<DepartmanChartDto>(@"sELECT d.DepartmanAdi AS DepartmantName,k.KaynakMiktari AS TotalResource,sum(PK.KaynakMiktari) AS TotalUseResource, k.KaynakAdi AS ResourceName
                                                                         FROM Departmans d
                                                                                     INNER JOIN Kaynaks k ON d.Id = k.DepartmanId
                                                                                     INNER JOIN ProjeKaynak PK ON k.Id = PK.KaynakId
-                                                                        GROUP BY d.DepartmanAdi, k.KaynakMiktari;");
+                                                                        GROUP BY d.DepartmanAdi, k.KaynakMiktari,k.KaynakAdi;");
                 return result;
             }
         }
