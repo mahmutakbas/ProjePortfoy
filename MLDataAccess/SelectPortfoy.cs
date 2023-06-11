@@ -71,7 +71,7 @@ namespace MLDataAccess
                     {
                         ordered=ordered.ThenByDescending(p=> p.Butce);
                     }
-                    else if(predictionDto.strategyName == "Kaynka")
+                    else if(predictionDto.strategyName == "Kaynak")
                     {
                         ordered = ordered.ThenByDescending(p => p.KaynakKullanim);
                     }
