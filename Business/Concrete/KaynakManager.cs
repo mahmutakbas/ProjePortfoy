@@ -15,10 +15,12 @@ namespace Business.Concrete
     {
 
         private readonly IKaynakDal _kaynakDal;
+        private readonly IProjeKaynakDal _projeKaynakDal;
 
-        public KaynakManager(IKaynakDal kaynakDal)
+        public KaynakManager(IKaynakDal kaynakDal, IProjeKaynakDal projeKaynakDal)
         {
             _kaynakDal = kaynakDal;
+            _projeKaynakDal = projeKaynakDal;
         }
 
         public async Task<IDataResult<int>> AddAsync(Kaynak entity)
@@ -56,6 +58,14 @@ namespace Business.Concrete
         {
             if (id <= 0)
                 return new Result(false, "Error");
+
+
+            var isExist = await _projeKaynakDal.IsUse(id);
+
+            if (isExist)
+            {
+                return new Result(false, "Kaynak kullanıldığı için silinemez.");
+            }
 
             var result = await _kaynakDal.Delete(id);
 
@@ -98,7 +108,7 @@ namespace Business.Concrete
                 var isExist = await _kaynakDal.IsExist(entity);
 
                 if (isExist)
-                    return new DataResult<int>(0, false, "Proje Adı mevcut. Proje adını değiştirin!");
+                    return new DataResult<int>(0, false, "Kaynak Adı mevcut. Proje adını değiştirin!");
 
                 var result = await _kaynakDal.Update(entity);
 

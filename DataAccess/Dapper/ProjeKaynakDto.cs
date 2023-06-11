@@ -1,15 +1,18 @@
 ﻿using Dapper;
 using Entities.Concrete;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Mozilla;
+using static Dapper.SqlMapper;
 
 namespace DataAccess.Dapper
 {
     public interface IProjeKaynakDal : IBaseRepository<ProjeKaynak>
     {
         Task<bool> IsExist(ProjeKaynak entity);
+        Task<bool> IsUse(int kaynakId);
         Task<IEnumerable<object>> GetByProjectId(int projeId);
-
         Task<object> GetFinishTimeProject(ProjeKaynak kaynak);
+        
     }
     public class ProjeKaynakDto : IProjeKaynakDal
     {
@@ -83,6 +86,15 @@ namespace DataAccess.Dapper
             {
                 var result = await con.QueryFirstOrDefaultAsync<Kaynak>("SELECT * FROM ProjeKaynak WHERE KaynakId=@KaynakId  && ProjeId=@ProjeId AND ID <> @Id", new { KaynakId = entity.KaynakId, ProjeId = entity.ProjeId, Id = entity.Id });
 
+                return result == null ? false : true;
+            }
+        }
+
+        public async Task<bool> IsUse(int kaynakId)
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.QueryFirstOrDefaultAsync<Kaynak>("SELECT * FROM ProjeKaynak WHERE KaynakId=@KaynakId LIMIT 1", new { KaynakId = kaynakId });
                 return result == null ? false : true;
             }
         }
