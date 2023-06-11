@@ -32,6 +32,7 @@ namespace MLDataAccess
 
                     project.Id = item.Id;
                     project.ProjeIsmi = "aa";
+                    project.ProjeTipi = "aa";
                     project.Sure = fark;
 
                     project.Butce = GetButce((float)item.Budget);
@@ -44,7 +45,7 @@ namespace MLDataAccess
                     project.Risk4 = GetRisk(item?.Risk4!.ToString());
                     project.Risk5 = GetRisk(item?.Risk5!.ToString());
 
-                    project.Sonuc = (float)(Math.Round(project.Sure + project.Butce + project.TahminiKar + project.IsGucu + project.KaynakKullanim + ((project.Risk1 + project.Risk2 + project.Risk3 + project.Risk4 + project.Risk5) / 5) / 10));
+                  //  project.Sonuc = 1; //(float)(Math.Round(project.Sure + project.Butce + project.TahminiKar + project.IsGucu + project.KaynakKullanim + ((project.Risk1 + project.Risk2 + project.Risk3 + project.Risk4 + project.Risk5) / 5) / 10));
 
                     projects.Add(project);
                 }
@@ -62,8 +63,13 @@ namespace MLDataAccess
 
                     foreach (var inputData in projects)
                     {
-                        predict.Add(predictionEngine.Predict(inputData));
+                        var pred = predictionEngine.Predict(inputData);
+
+                        predict.Add(pred);
+                        Console.WriteLine($"{pred.Id} ---- {pred.Butce} ---- {pred.IsGucu} ---- {pred.KaynakKullanim} --- {pred.Sonuc}");
+
                     }
+                   
                     //bütçe, süre, kaynak, işçi
 
                     var ordered = predict.OrderByDescending(p => p.Sonuc);
@@ -73,11 +79,11 @@ namespace MLDataAccess
                     }
                     else if(predictionDto.strategyName == "Kaynak")
                     {
-                        ordered = ordered.ThenByDescending(p => p.KaynakKullanim);
+                        ordered = ordered.ThenBy(p => p.KaynakKullanim);
                     }
                     else if(predictionDto.strategyName == "Süre")
                     {
-                        ordered = ordered.ThenByDescending(p => p.Sure);
+                        ordered = ordered.ThenBy(p => p.Sure);
                     }
                     return Task.FromResult(ordered.ToList());
                 }
@@ -115,7 +121,7 @@ namespace MLDataAccess
                     project.Risk4 = GetRisk(item?.Risk4!.ToString());
                     project.Risk5 = GetRisk(item?.Risk5!.ToString());
 
-                    project.Sonuc = (float)(Math.Round(project.Sure + project.Butce + project.TahminiKar + project.IsGucu + project.KaynakKullanim + ((project.Risk1 + project.Risk2 + project.Risk3 + project.Risk4 + project.Risk5) / 5) / 10));
+                  //  project.Sonuc = (float)(Math.Round(project.Sure + project.Butce + project.TahminiKar + project.IsGucu + project.KaynakKullanim + ((project.Risk1 + project.Risk2 + project.Risk3 + project.Risk4 + project.Risk5) / 5) / 10));
 
                     projects.Add(project);
                 }
@@ -351,7 +357,7 @@ namespace MLDataAccess
         [LoadColumn(4)] public float TahminiKar;
         [LoadColumn(5)] public float IsGucu;
         [LoadColumn(6)] public float KaynakKullanim;
-        [LoadColumn(7)] public float Sonuc;
+      [LoadColumn(7)] public float Sonuc;
         [LoadColumn(8)] public float Sure;
         [LoadColumn(9)] public float Risk1;
         [LoadColumn(10)] public float Risk2;
@@ -369,9 +375,6 @@ namespace MLDataAccess
         [ColumnName("ProjeIsmi")]
         public string ProjeIsmi;
 
-        [ColumnName("ProjeTipi")]
-        public VBuffer<float> ProjeTipi;
-
         [ColumnName("Butce")]
         public float Butce;
 
@@ -387,7 +390,7 @@ namespace MLDataAccess
         [ColumnName("KaynakKullanim")]
         public float KaynakKullanim;
 
-        [ColumnName("Sonuc")]
+        [ColumnName("Score")]
         public float Sonuc;
     }
     public class ModelPredictionDto
