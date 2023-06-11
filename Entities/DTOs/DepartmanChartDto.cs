@@ -11,5 +11,6 @@ namespace Entities.DTOs
         public string? DepartmantName { get; set; }
         public int TotalUseResource { get; set; }
         public int TotalResource { get; set; }
+        public string? ResourceName { get; set; }
     }
 }
