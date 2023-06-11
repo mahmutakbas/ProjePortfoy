@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Business.Concrete;
-using DataAccess.Dapper;
 using Entities.Concrete;
 using Entities.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace WebPortfoy.Controllers
 {
@@ -25,7 +22,7 @@ namespace WebPortfoy.Controllers
         private readonly IDepartmanService _departmanService;
         private readonly IMapper _mapper;
 
-        public ProjeController(IProjeService projeService, IRiskService riskService, IProjeDetayService projeDetayService, IProjeKPIService projeKPIService, IProjeKaynakService projeKaynakService, IMapper mapper, IProjeKategoriService projeKategoriService, IKaynakService kaynakService,IDepartmanService departmanService)  
+        public ProjeController(IProjeService projeService, IRiskService riskService, IProjeDetayService projeDetayService, IProjeKPIService projeKPIService, IProjeKaynakService projeKaynakService, IMapper mapper, IProjeKategoriService projeKategoriService, IKaynakService kaynakService, IDepartmanService departmanService)
         {
             _projeService = projeService;
             _riskService = riskService;
@@ -43,7 +40,7 @@ namespace WebPortfoy.Controllers
         {
             var result = await _projeService.GetAllDto();
 
-            
+
 
             return Ok(result.Data);
         }
@@ -58,7 +55,7 @@ namespace WebPortfoy.Controllers
 
             if (result.Data == null)
                 return NotFound(result);
-            
+
             var resultCategory = await _projeKategoriService.Get(result.Data.ProjeKategoriId);
             var resultDepartment = await _departmanService.Get(result.Data.DepartmanId);
 
@@ -157,8 +154,8 @@ namespace WebPortfoy.Controllers
         [HttpPut("status")]
         public async Task<IActionResult> UpdateStatus(ProjeStatus proje)
         {
-           
-       var result = await _projeService.UpdateStatu(proje);
+
+            var result = await _projeService.UpdateStatu(proje);
 
             if (!result.Success)
                 return BadRequest(new { isSuccess = false, Message = result.Message });

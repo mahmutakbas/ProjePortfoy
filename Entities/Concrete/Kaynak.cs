@@ -5,7 +5,7 @@
         public string? KaynakAdi { get; set; }
         public int DepartmanId { get; set; }
         public string? DepartmanAdi { get; set; }
-        public int? KaynakMiktari { get; set; }
+        public int KaynakMiktari { get; set; }
     }
 }
   

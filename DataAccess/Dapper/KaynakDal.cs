@@ -62,7 +62,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("UPDATE  Kaynaks SET KaynakAdi = @KaynakAdi, KaynakMiktari = @KaynakMiktari,DepartmanId=@DepartmanId WHERE Id = @Id", new { KaynakAdi = entity.KaynakAdi, KaynakMiktari = entity.KaynakMiktari, DepartmanId = entity.DepartmanId, Id = entity.Id });
+                var result = await con.ExecuteAsync("UPDATE Kaynaks SET KaynakAdi = @KaynakAdi, KaynakMiktari = @KaynakMiktari,DepartmanId=@DepartmanId WHERE Id = @Id", new { KaynakAdi = entity.KaynakAdi, KaynakMiktari = entity.KaynakMiktari, DepartmanId = entity.DepartmanId, Id = entity.Id });
 
                 return result;
             }

@@ -16,10 +16,14 @@ namespace Business.Concrete
     public class ProjeManager : IProjeService
     {
         private readonly IProjeDal _projeDal;
+        private readonly IProjeKaynakDal _projeKaynakDal;
+        private readonly IKaynakDal _kaynakDal;
 
-        public ProjeManager(IProjeDal projeDal)
+        public ProjeManager(IProjeDal projeDal, IProjeKaynakDal projeKaynakDal, IKaynakDal kaynakDal)
         {
             _projeDal = projeDal;
+            _projeKaynakDal = projeKaynakDal;
+            _kaynakDal = kaynakDal;
         }
 
         public async Task<IDataResult<int>> AddAsync(Proje entity)
@@ -126,11 +130,46 @@ namespace Business.Concrete
         {
             if (entity != null)
             {
-
                 var isTrue = await _projeDal.Get(entity.Id);
 
                 if (isTrue == null)
                     return new DataResult<int>(0, false, "Proje bulunamadı.");
+
+
+                if (entity.Status.ToLower().Equals("tamamlandı"))
+                {
+                    var getResources = await _projeKaynakDal.GetByProjectIdDto(entity.Id);
+                    //pk.id, pk.projeid, k.KaynakAdi, pk.kaynakmiktari
+
+                    if (getResources.Count() > 0)
+                    {
+                        foreach (var item in getResources.ToList())
+                        {
+
+
+                            Kaynak getKaynak = await _kaynakDal.Get(item.KaynakId);
+
+                            if (getKaynak != null)
+                            {
+                                getKaynak.KaynakMiktari = getKaynak.KaynakMiktari + Convert.ToInt32(item.KaynakMiktari);
+
+                                await _kaynakDal.Update(getKaynak);
+
+                                ProjeKaynak projeKaynak = new ProjeKaynak()
+                                {
+                                    Id = Convert.ToInt32(item.Id),
+                                    KaynakId = Convert.ToInt32(item.KaynakId),
+                                    KaynakMiktari = 0,
+                                    ProjeId = entity.Id
+                                };
+
+                                await _projeKaynakDal.Update(projeKaynak);
+                            }
+                        }
+                    }
+                }
+
+
                 var result = await _projeDal.UpdateStatu(entity);
 
                 if (result < 1)

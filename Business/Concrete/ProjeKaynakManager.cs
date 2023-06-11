@@ -114,6 +114,8 @@ namespace Business.Concrete
                 if (currentKaynak == null)
                     return new DataResult<object>(0, false, "Kaynak bulunamadı.");
 
+
+
                 var getKaynak = await _kaynakDal.Get(entity.KaynakId);
 
                 if (entity.KaynakMiktari > currentKaynak.KaynakMiktari)

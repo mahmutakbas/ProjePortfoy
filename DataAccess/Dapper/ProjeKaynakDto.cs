@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Entities.Concrete;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1.Mozilla;
 using static Dapper.SqlMapper;
 
 namespace DataAccess.Dapper
@@ -12,7 +11,8 @@ namespace DataAccess.Dapper
         Task<bool> IsUse(int kaynakId);
         Task<IEnumerable<object>> GetByProjectId(int projeId);
         Task<object> GetFinishTimeProject(ProjeKaynak kaynak);
-        
+        Task<IEnumerable<ProjeKaynak>> GetByProjectIdDto(int projeId);
+
     }
     public class ProjeKaynakDto : IProjeKaynakDal
     {
@@ -59,7 +59,17 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.QueryAsync<object>("SELECT pk.id, pk.projeid, k.KaynakAdi, pk.kaynakmiktari FROM ProjeKaynak pk  INNER  JOIN Kaynaks k ON pk.KaynakId=k.Id WHERE ProjeId = @ProjeId"
+                var result = await con.QueryAsync<object>("SELECT pk.id, pk.projeid,k.Id AS KaynakId, k.KaynakAdi, pk.kaynakmiktari FROM ProjeKaynak pk  INNER  JOIN Kaynaks k ON pk.KaynakId=k.Id WHERE ProjeId = @ProjeId"
+                    , new { ProjeId = projeId });
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ProjeKaynak>> GetByProjectIdDto(int projeId)
+        {
+            using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
+            {
+                var result = await con.QueryAsync<ProjeKaynak>("SELECT pk.id AS Id, pk.projeid AS ProjeId,k.Id AS KaynakId,  pk.kaynakmiktari AS KaynakMiktari FROM ProjeKaynak pk  INNER  JOIN Kaynaks k ON pk.KaynakId=k.Id WHERE ProjeId = @ProjeId"
                     , new { ProjeId = projeId });
                 return result;
             }
@@ -79,6 +89,8 @@ namespace DataAccess.Dapper
                 return result;
             }
         }
+
+
 
         public async Task<bool> IsExist(ProjeKaynak entity)
         {
@@ -103,7 +115,7 @@ namespace DataAccess.Dapper
         {
             using (var con = new MySqlConnection(PortfoyDbContex.ConnectionString))
             {
-                var result = await con.ExecuteAsync("UPDATE INTO Kaynaks (ProjeId, KaynakId, KaynakMiktari) VALUES (@ProjeId, @KaynakId, @KaynakMiktari)", new { ProjeId = entity.ProjeId, KaynakId = entity.KaynakId, KaynakMiktari = entity.KaynakMiktari });
+                var result = await con.ExecuteAsync("UPDATE ProjeKaynak Set ProjeId = @ProjeId, KaynakId=@KaynakId, KaynakMiktari=@KaynakMiktari WHERE Id=@Id", new { Id = entity.Id, ProjeId = entity.ProjeId, KaynakId = entity.KaynakId, KaynakMiktari = entity.KaynakMiktari });
                 return result;
             }
         }
